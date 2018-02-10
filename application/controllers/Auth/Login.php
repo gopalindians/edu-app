@@ -23,9 +23,13 @@ class Login extends CI_Controller {
 	}
 
 	public function index() {
-		$this->load->view( 'layout/header' );
-		$this->load->view( 'auth/login' );
-		$this->load->view( 'layout/footer' );
+		if ( ! $this->checkAuth() ) {
+			$this->load->view( 'layout/header' );
+			$this->load->view( 'auth/login' );
+			$this->load->view( 'layout/footer' );
+		} else {
+			redirect( '/' );
+		}
 	}
 
 	public function post() {
@@ -49,9 +53,18 @@ class Login extends CI_Controller {
 	public function check_if_email_exists( $email ) {
 		if ( $this->user_model->check_if_email_already_exists( $email ) > 0 ) {
 			$this->form_validation->set_message( 'check_if_email_exists', '{field} do not exists' );
-			return TRUE;
+
+			return true;
 		} else {
-			return FALSE;
+			return false;
+		}
+	}
+
+	private function checkAuth() {
+		if ( $this->session->has_userdata( 'UE' ) ) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

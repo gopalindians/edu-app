@@ -20,9 +20,13 @@ class Register extends CI_Controller {
 	}
 
 	public function index() {
-		$this->load->view( 'layout/header' );
-		$this->load->view( 'auth/register' );
-		$this->load->view( 'layout/footer' );
+		if ( !$this->checkAuth() ) {
+			$this->load->view( 'layout/header' );
+			$this->load->view( 'auth/register' );
+			$this->load->view( 'layout/footer' );
+		} else {
+			redirect( '/' );
+		}
 	}
 
 	public function post() {
@@ -63,6 +67,14 @@ class Register extends CI_Controller {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	private function checkAuth() {
+		if ( $this->session->has_userdata( 'UE' ) ) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
