@@ -39,7 +39,6 @@ class Home extends CI_Controller {
 
 	public function index() {
 		$this->load->view( 'layout/header' );
-		$this->load->view( 'layout/sidebar' );
 
 		$questions = $this->question_model->get_questions();
 		foreach ( $questions['all_questions'] as $question ) {
