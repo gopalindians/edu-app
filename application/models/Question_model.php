@@ -48,7 +48,10 @@ class Question_model extends CI_Model {
 		$this->db->order_by( 'created_at', 'DESC' );
 		$query = $this->db->get( 'questions' );
 
-		return $query->result();
+		return [
+			'all_questions'   => $query->result(),
+			'total_questions' => $query->num_rows()
+		];
 	}
 
 	public function get_question_by_id( $question_id ) {

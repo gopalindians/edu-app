@@ -10,9 +10,7 @@
 defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 class Question extends CI_Controller {
-
 	private $questionId;
-	private $questionSlug;
 	private $question_text;
 	private $question_description;
 
@@ -28,7 +26,6 @@ class Question extends CI_Controller {
 
 
 	public function view( $id, $slug = 'NULL' ) {
-		//$this->questionId = $this->uri->segment( 2 );
 		$this->questionId = $id;
 		$this->load->view( 'layout/header' );
 
@@ -39,32 +36,43 @@ class Question extends CI_Controller {
 
 
 	public function add() {
-		$this->load->view( 'layout/header' );
-		$this->load->view( 'question/add' );
-		$this->load->view( 'layout/footer' );
-	}
-
-	public function post() {
-		$this->question_text        = $this->input->post( 'question_text' );
-		$this->question_description = $this->input->post( 'question_description' );
-		$this->form_validation->set_rules( 'question_text', 'Question text', 'trim|required|min_length[10]|max_length[255]' );
-		$this->form_validation->set_rules( 'question_description', 'Question description', 'required' );
-
-		if ( $this->form_validation->run() == false ) {
+		if ( $this->checkAuth() ) {
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'question/add' );
 			$this->load->view( 'layout/footer' );
 		} else {
-			$this->email = $this->session->userdata()['UE'];
-
-			$this->user_id = $this->user_model->get_data_by_email( $this->email )[0]->id;
-			//$this->session->set_userdata( [ 'UE' => $this->email ] );
-
-			$response = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_description );
-
-			$this->session->set_flashdata( 'response', $response );
-			redirect( '/' );
+			redirect( '/auth/login' );
 		}
 	}
 
+	public function post() {
+		if ( $this->checkAuth() ) {
+			$this->question_text        = $this->input->post( 'question_text' );
+			$this->question_description = $this->input->post( 'question_description' );
+			$this->form_validation->set_rules( 'question_text', 'Question text', 'trim|required|min_length[10]|max_length[255]' );
+			$this->form_validation->set_rules( 'question_description', 'Question description', 'required' );
+
+			if ( $this->form_validation->run() == false ) {
+				$this->load->view( 'layout/header' );
+				$this->load->view( 'question/add' );
+				$this->load->view( 'layout/footer' );
+			} else {
+				$this->email   = $this->session->userdata()['UE'];
+				$this->user_id = $this->user_model->get_data_by_email( $this->email )[0]->id;
+				$response      = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_description );
+				$this->session->set_flashdata( 'response', $response );
+				redirect( '/' );
+			}
+		} else {
+			redirect( '/auth/login' );
+		}
+	}
+
+	private function checkAuth() {
+		if ( $this->session->has_userdata( 'UE' ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
