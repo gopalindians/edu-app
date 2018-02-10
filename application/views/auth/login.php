@@ -23,7 +23,7 @@
                name="password"
                value="<?php echo set_value( 'password' ); ?>">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button> <a href="/auth/register" style="float: right" class=" btn btn-primary">Register</a>
 
 
 	<?= form_close() ?>

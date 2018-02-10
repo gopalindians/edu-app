@@ -36,7 +36,7 @@
             <input type="password" class="form-control" id="password-confirm" placeholder="Confirm Password"
                    name="confirm_password" value="<?= set_value( 'confirm_password' ); ?>">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button> <a href="/auth/login" style="float: right" class=" btn btn-primary">Login</a>
 		<?= form_close() ?>
 	<?php endif; ?>
 </div>
