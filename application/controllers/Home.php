@@ -12,15 +12,18 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 class Home extends CI_Controller {
 
+	private const PER_PAGE = 5;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper( [ 'form', 'url' ] );
 		$this->load->library( [ 'form_validation', 'session', 'pagination' ] );
-		$this->load->model( [ 'user_model', 'question_model' ] );
+		$this->load->model( 'user_model' );
+		$this->load->model( 'question_model' );
 
 		$config['base_url']          = base_url() . 'index.php/home/index/';
-		$config['per_page']          = 20;
-		$config['user_page_numbers'] = true;
+		$config['per_page']          = self::PER_PAGE;
+		$config['user_page_numbers'] = TRUE;
 		$config['full_tag_open']     = '<div class="pagging text-center"><nav><ul class="pagination">';
 		$config['full_tag_close']    = '</ul></nav></div>';
 		$config['num_tag_open']      = '<li class="page-item"><span class="page-link">';
@@ -46,7 +49,7 @@ class Home extends CI_Controller {
 		}
 
 		$config['total_rows'] = $questions['total_questions'];
-		$config['num_links']  = $questions['total_questions'];
+		//$config['num_links']  = $questions['total_questions'];
 		$this->pagination->initialize( $config );
 		$pagination = $this->pagination->create_links();
 
