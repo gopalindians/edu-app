@@ -59,7 +59,9 @@ $route['auth/register']['post'] = 'auth/register/post';
 
 $route['auth/logout']['get'] = 'auth/logout';
 
-$route['question/(:num)/(:any)']['get'] = 'question/view/$1/$2';
+$route['question/(:num)/(:any)']['get']       = 'question/view/$1/$2';
+$route['question/edit/(:num)/(:any)']['get']  = 'question/edit/$1/$2';
+$route['question/edit/(:num)/(:any)']['post'] = 'question/post_edit/$1/$2';
 
 $route['question/add']['get']  = 'question/add';
 $route['question/add']['post'] = 'question/post';
