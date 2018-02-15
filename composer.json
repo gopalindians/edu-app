@@ -19,6 +19,7 @@
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",
-		"phpunit/phpunit": "4.* || 5.*"
+		"phpunit/phpunit": "4.* || 5.*",
+		"codeception/codeception": "^2.3"
 	}
 }
