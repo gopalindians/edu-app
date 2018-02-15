@@ -39,13 +39,15 @@ foreach ( $questions as $question ):
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#reportModal">Report</a>
                         <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#bookmarkModal">Bookmark</a>
-                        <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#addToListModal">Add to
+                        <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#addToListModal">Add
+                            to
                             list</a>
                     </div>
                 </div>
             </h6>
             <p class="card-text"><?= $question->question_description ?></p>
-            <a href="#" class="card-link small">Card link</a>
+            <a href="question/edit/<?= $question->question_id . '/' . $question->question_slug; ?>"
+               class="card-link small">Edit</a>
         </div>
     </div>
 <?php endforeach; ?>
