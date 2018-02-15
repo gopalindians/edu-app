@@ -22,7 +22,8 @@ class Question extends CI_Controller {
 		parent::__construct();
 		$this->load->helper( [ 'form', 'url' ] );
 		$this->load->library( [ 'form_validation', 'session' ] );
-		$this->load->model( [ 'question_model', 'user_model' ] );
+		$this->load->model( 'question_model' );
+		$this->load->model( 'user_model' );
 	}
 
 
@@ -84,5 +85,21 @@ class Question extends CI_Controller {
 		$z = str_replace( ' ', '-', $z );
 
 		return trim( $z, '-' );
+	}
+
+
+	public function edit( $id, $slug = 'NULL' ) {
+		$this->load->view( 'layout/header' );
+		$question = $this->question_model->get_question_by_id( $id );
+		$this->load->view( 'question/edit', [ 'question' => $question ] );
+		$this->load->view( 'layout/footer' );
+	}
+
+	public function post_edit($id, $slug = 'NULL') {
+
+		$this->load->view( 'layout/header' );
+		$question = $this->question_model->get_question_by_id( $id );
+		$this->load->view( 'question/edit', [ 'question' => $question ] );
+		$this->load->view( 'layout/footer' );
 	}
 }
