@@ -10,8 +10,9 @@
 defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 class Question extends CI_Controller {
-	private $questionId;
+	private $question_id;
 	private $question_text;
+	private $question_slug;
 	private $question_description;
 
 	private $email;
@@ -26,7 +27,7 @@ class Question extends CI_Controller {
 
 
 	public function view( $id, $slug = 'NULL' ) {
-		$this->questionId = $id;
+		$this->question_id = $id;
 		$this->load->view( 'layout/header' );
 
 		$question = $this->question_model->get_question_by_id( $id );
@@ -47,7 +48,8 @@ class Question extends CI_Controller {
 
 	public function post() {
 		if ( $this->checkAuth() ) {
-			$this->question_text        = $this->slug( $this->input->post( 'question_text' ) );
+			$this->question_text        = $this->input->post( 'question_text' );
+			$this->question_slug        = $this->slug( $this->input->post( 'question_text' ) );
 			$this->question_description = $this->input->post( 'question_description' );
 			$this->form_validation->set_rules( 'question_text', 'Question text', 'trim|required|min_length[10]|max_length[255]' );
 			$this->form_validation->set_rules( 'question_description', 'Question description', 'required' );
@@ -59,7 +61,7 @@ class Question extends CI_Controller {
 			} else {
 				$this->email   = $this->session->userdata()['UE'];
 				$this->user_id = $this->user_model->get_data_by_email( $this->email )[0]->id;
-				$response      = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_description );
+				$response      = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_slug, $this->question_description );
 				$this->session->set_flashdata( 'response', $response );
 				redirect( '/' );
 			}
@@ -80,6 +82,7 @@ class Question extends CI_Controller {
 		$z = strtolower( $z );
 		$z = preg_replace( '/[^a-z0-9 -]+/', '', $z );
 		$z = str_replace( ' ', '-', $z );
+
 		return trim( $z, '-' );
 	}
 }

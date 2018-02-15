@@ -11,6 +11,7 @@ class Question_model extends CI_Model {
 
 	private $question_posted_by;
 	private $question_text;
+	private $question_slug;
 	private $question_description;
 	private $date;
 	private $created_at;
@@ -21,8 +22,9 @@ class Question_model extends CI_Model {
 		$this->date = new DateTime();
 	}
 
-	public function save_new_question( $question_posted_by, $question_text, $question_description = '' ) {
+	public function save_new_question( $question_posted_by, $question_text, $question_slug, $question_description = '' ) {
 		$this->question_text = $question_text;
+		$this->question_slug = $question_slug;
 		if ( $question_description !== '' ) {
 			$this->question_description = $question_description;
 		}
@@ -32,7 +34,7 @@ class Question_model extends CI_Model {
 
 		$data = [
 			'question_text'        => $question_text,
-			'question_slug'        => strtolower( str_replace( ' ', '-', $question_text ) ),
+			'question_slug'        => $question_slug,
 			'question_description' => $question_description,
 			'created_at'           => $this->created_at,
 			'updated_at'           => $this->updated_at,
