@@ -32,6 +32,17 @@ foreach ( $questions as $question ):
             <!--<h5 class="card-title">Card title</h5>-->
             <h6 class="card-subtitle mb-2 text-muted"><a
                         href="/question/<?= $question->question_id; ?>/<?= $question->question_slug; ?>"><?= $question->question_text; ?></a>
+                <div class="dropdown" style="float: right;">
+                        <span class="dropdown-toggle" style="cursor: pointer;" id="dropdownMenuButton"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </span>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#reportModal">Report</a>
+                        <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#bookmarkModal">Bookmark</a>
+                        <a class="dropdown-item" href="javascript:" data-toggle="modal" data-target="#addToListModal">Add to
+                            list</a>
+                    </div>
+                </div>
             </h6>
             <p class="card-text"><?= $question->question_description ?></p>
             <a href="#" class="card-link small">Card link</a>
@@ -41,3 +52,71 @@ foreach ( $questions as $question ):
 
 <br>
 <?= $pagination; ?>
+
+<!-- Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Report question below</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="radio" name="report" value="spam">Spam
+                    <input type="radio" name="report" value="nudity">Nudity/
+                    <input type="radio" name="report" value="racism">Racism
+                    <input type="radio" name="report" value="hate">Hate
+                    <input type="radio" name="report" value="other">Other
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addToListModal" tabindex="-1" role="dialog" aria-labelledby="addToListModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
