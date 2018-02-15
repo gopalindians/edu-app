@@ -47,7 +47,7 @@ class Question extends CI_Controller {
 
 	public function post() {
 		if ( $this->checkAuth() ) {
-			$this->question_text        = $this->input->post( 'question_text' );
+			$this->question_text        = $this->slug( $this->input->post( 'question_text' ) );
 			$this->question_description = $this->input->post( 'question_description' );
 			$this->form_validation->set_rules( 'question_text', 'Question text', 'trim|required|min_length[10]|max_length[255]' );
 			$this->form_validation->set_rules( 'question_description', 'Question description', 'required' );
@@ -74,5 +74,12 @@ class Question extends CI_Controller {
 		} else {
 			return false;
 		}
+	}
+
+	private function slug( $z ) {
+		$z = strtolower( $z );
+		$z = preg_replace( '/[^a-z0-9 -]+/', '', $z );
+		$z = str_replace( ' ', '-', $z );
+		return trim( $z, '-' );
 	}
 }
