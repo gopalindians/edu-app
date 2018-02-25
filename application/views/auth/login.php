@@ -3,7 +3,7 @@
     <div class="col-lg-12 col-lg-12-offset"></div>
 
 
-	<?= form_open( 'auth/login', [ 'method' => 'post', 'class' => 'col-lg-4 col-lg-8-offset' ] ) ?>
+	<?= form_open( '/auth/login', [ 'method' => 'post', 'class' => 'col-lg-4 col-lg-8-offset' ] ) ?>
 	<?php if ( validation_errors() !== '' ): ?>
         <div class="alert alert-danger" role="alert">
 			<?= validation_errors(); ?>

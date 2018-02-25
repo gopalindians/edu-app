@@ -24,12 +24,19 @@
         2 days ago
     </div>-->
 </div>
-<div class="card" style="width: 48rem;margin-top: 5px">
-    <div class="card-body">
-        <!--<h5 class="card-title">Card title</h5>-->
-        <h6 class="card-subtitle mb-2 text-muted"><?= $question[0]->question_text; ?></h6>
-        <p class="card-text"><?= $question[0]->question_description; ?></p>
-        <a href="#" class="card-link small">Card link</a>
+<div class="row">
+    <div class="col-lg-8 col-md-12 col-sm-12" style="">
+        <div class="card" style="margin-top: 5px">
+            <div class="card-body">
+                <!--<h5 class="card-title">Card title</h5>-->
+                <h6 class="card-subtitle mb-2 text-muted"><?= $question[0]->question_text; ?></h6>
+                <p class="card-text"><?= $question[0]->question_description; ?></p>
+                <a href="#" class="card-link small">Card link</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 hidden-md hidden-sm">
+        <div class="alert alert-success">Hello</div>
     </div>
 </div>
 

@@ -7,12 +7,12 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home</title>
 
 
     <meta name='keywords' content='your, tags'>
     <meta name='description' content='150 words'>
-    <meta name='subject' content='your website' s subject
-    '>
+    <meta name='subject' content='your website'>
     <meta name='copyright' content='company name'>
     <meta name='language' content='ES'>
     <meta name='robots' content='index,follow'>
