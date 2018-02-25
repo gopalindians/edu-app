@@ -75,7 +75,10 @@ $route['admin/auth/register']['post'] = 'admin/auth/register/post';
 
 $route['admin/auth/logout']['get'] = 'admin/auth/logout';
 
-$route['admin']['get'] = 'admin/home/index';
+$route['admin']['get']   = 'admin/home/index';
+
+$route['report']['get']  = 'report/index';
+$route['report']['post'] = 'report/index';
 
 /*ADMIN ENDS*/
 
