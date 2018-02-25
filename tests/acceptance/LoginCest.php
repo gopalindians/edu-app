@@ -17,8 +17,7 @@ class LoginCest {
 
 	public function submitLoginFormSeeError( AcceptanceTester $I ) {
 		$I->amOnPage( '/auth/login' );
-		$I->submitForm( 'form', [ 'email' => 'MilesDavis', 'password' => 'miles@davis.com' ] );
-		$I->see( 'Thank you for Signing Up!' );
-
+		$I->submitForm( 'form', [ 'email' => 'miles@davis.co', 'password' => '12345678' ] );
+		$I->dontSee( 'Thank you for Signing Up!' );
 	}
 }
