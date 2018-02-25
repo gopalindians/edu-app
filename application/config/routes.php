@@ -66,6 +66,18 @@ $route['question/edit/(:num)/(:any)']['post'] = 'question/post_edit/$1/$2';
 $route['question/add']['get']  = 'question/add';
 $route['question/add']['post'] = 'question/post';
 
+/*ADMIN*/
+$route['admin/auth/login']['get']  = 'admin/auth/login';
+$route['admin/auth/login']['post'] = 'admin/auth/login/post';
+
+$route['admin/auth/register']['get']  = 'admin/auth/register';
+$route['admin/auth/register']['post'] = 'admin/auth/register/post';
+
+$route['admin/auth/logout']['get'] = 'admin/auth/logout';
+
+$route['admin']['get'] = 'admin/home/index';
+
+/*ADMIN ENDS*/
 
 $route['api/v1/auth/login']['post']    = 'api/auth/login/index';
 $route['api/v1/auth/register']['post'] = 'api/auth/register/index';
