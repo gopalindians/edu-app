@@ -14,12 +14,13 @@ class Home extends CI_Controller {
 		$this->load->helper( [ 'form', 'url' ] );
 		$this->load->library( [ 'form_validation', 'session' ] );
 		$this->load->model( 'admin_model' );
+		$this->load->model( 'report_model' );
 	}
 
 	public function index() {
 		if ( $this->checkAuth() ) {
 			$this->load->view( 'admin/layout/header' );
-			$this->load->view( 'admin/index' );
+			$this->load->view( 'admin/index', [ 'reports' => $this->report_model->get_all_reports() ] );
 			$this->load->view( 'admin/layout/footer' );
 		} else {
 			redirect( '/admin/auth/login' );

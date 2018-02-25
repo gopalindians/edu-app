@@ -30,12 +30,14 @@
                     <!--<h5 class="card-title">Card title</h5>-->
                     <h6 class="card-subtitle mb-2 text-muted"><a
                                 href="/question/<?= $question->question_id; ?>/<?= $question->question_slug; ?>"><?= $question->question_text; ?></a>
+                        <input type="hidden" id="hidden_question_id" value="<?= $question->question_id; ?>">
                         <div class="dropdown" style="float: right;">
                         <span class="dropdown-toggle" style="cursor: pointer;" id="dropdownMenuButton"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </span>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="javascript:" data-toggle="modal"
+                                   data-question-id="<?= $question->question_id; ?>"
                                    data-target="#reportModal">Report</a>
                                 <a class="dropdown-item" href="javascript:" data-toggle="modal"
                                    data-target="#bookmarkModal">Bookmark</a>
@@ -47,8 +49,8 @@
                         </div>
                     </h6>
                     <p class="card-text"><?= $question->question_description ?></p>
-                    <a href="question/edit/<?= $question->question_id . '/' . $question->question_slug; ?>"
-                       class="card-link small">Edit</a>
+                    <p class="small">Created on
+                        : <?= ( new DateTime( $question->created_at ) )->format( 'd mm' ); ?></p>
                 </div>
             </div>
 		<?php endforeach; ?>
@@ -72,16 +74,20 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <input type="radio" name="report" value="spam">Spam
-                    <input type="radio" name="report" value="nudity">Nudity/
-                    <input type="radio" name="report" value="racism">Racism
-                    <input type="radio" name="report" value="hate">Hate
-                    <input type="radio" name="report" value="other">Other
+                    <input type="radio" name="report" id="report_spam" value="spam"><label
+                            for="report_spam">Spam</label>
+                    <input type="radio" name="report" id="report_nudity" value="nudity"><label for="report_nudity">Nudity</label>
+                    <input type="radio" name="report" id="report_racism" value="racism"><label for="report_racism">Racism</label>
+                    <input type="radio" name="report" id="report_hate" value="hate"><label
+                            for="report_hate">Hate</label>
+                    <input type="radio" name="report" id="report_other" value="other"><label
+                            for="report_other">Other</label>
+                    <input type="hidden" name="report" id="report_question_id" value="">
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send Report</button>
+                <button type="button" class="btn btn-primary" id="report_send_btn">Send Report</button>
             </div>
         </div>
     </div>

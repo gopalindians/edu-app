@@ -1,17 +1,4 @@
 </br>
-<div class="card text-center">
-    <!--<div class="card-header">
-        Featured
-    </div>-->
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-    <!--<div class="card-footer text-muted">
-        2 days ago
-    </div>-->
-</div>
 
 <?php if ( $this->session->flashdata( 'response' ) != null ): ?>
     <br>
@@ -24,40 +11,37 @@
 <?php endif; ?>
 <div class="row">
     <div class="col-lg-8 col-md-12 col-sm-12">
-		<?php foreach ( $questions as $question ): ?>
-            <div class="card" style="margin-top: 5px">
-                <div class="card-body">
-                    <!--<h5 class="card-title">Card title</h5>-->
-                    <h6 class="card-subtitle mb-2 text-muted"><a
-                                href="/question/<?= $question->question_id; ?>/<?= $question->question_slug; ?>"><?= $question->question_text; ?></a>
-                        <div class="dropdown" style="float: right;">
-                        <span class="dropdown-toggle" style="cursor: pointer;" id="dropdownMenuButton"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        </span>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="javascript:" data-toggle="modal"
-                                   data-target="#reportModal">Report</a>
-                                <a class="dropdown-item" href="javascript:" data-toggle="modal"
-                                   data-target="#bookmarkModal">Bookmark</a>
-                                <a class="dropdown-item" href="javascript:" data-toggle="modal"
-                                   data-target="#addToListModal">Add
-                                    to
-                                    list</a>
-                            </div>
-                        </div>
-                    </h6>
-                    <p class="card-text"><?= $question->question_description ?></p>
-                    <a href="question/edit/<?= $question->question_id . '/' . $question->question_slug; ?>"
-                       class="card-link small">Edit</a>
-                </div>
-            </div>
-		<?php endforeach; ?>
+        <table class="table table-responsive table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Question</th>
+                <th scope="col">User</th>
+                <th scope="col">Report type</th>
+                <th scope="col">Created on</th>
+                <th scope="col">Updated on</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+			<?php foreach ( $reports as $report ): ?>
+                <tr>
+                    <th scope="row"><?= $report->fq_id; ?></th>
+                    <td><a href="/admin/report/<?= $report->question_id; ?>"> <?= $report->question_id; ?></a></td>
+                    <td><?= $report->user_id; ?></td>
+                    <td><?= $report->report_type; ?></td>
+                    <td><?= $report->created_at; ?></td>
+                    <td><?= $report->updated_at; ?></td>
+                    <td><?= $report->status; ?></td>
+                </tr>
+			<?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
     <div class="col-lg-2 hidden-md hidden-sm">Hello</div>
 </div>
 
 <br>
-<?= $pagination; ?>
 
 <!-- Modal -->
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel"
