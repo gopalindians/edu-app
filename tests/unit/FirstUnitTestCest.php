@@ -1,7 +1,7 @@
 <?php
 
 
-class FirstCest
+class FirstUnitTestCest
 {
     public function _before(UnitTester $I)
     {
