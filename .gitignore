@@ -33,3 +33,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /public
 /phpstorm.php
 /.env
+
+/assets/*.js
