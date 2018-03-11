@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/gopalindians/edu-app.svg?branch=master
+    :target: https://travis-ci.org/gopalindians/edu-app
+
 ###################
 What is EduApp
 ###################
