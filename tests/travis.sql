@@ -3,7 +3,7 @@
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
-/*SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';*/
+#SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
@@ -76,8 +76,8 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pass` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT current_timestamp(),
-  `updated_at` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT current_timestamp(),
+  `created_at` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'current_timestamp()',
+  `updated_at` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'current_timestamp()',
   `profile_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` varchar(255) COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
