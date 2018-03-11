@@ -7,6 +7,9 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
+
+CREATE DATABASE `edu_app`;
+
 DROP TABLE IF EXISTS `admins`;
 CREATE TABLE `admins` (
   `admin_id` int(11) NOT NULL AUTO_INCREMENT,
