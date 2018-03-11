@@ -10,7 +10,8 @@ before_script:
   - composer install --prefer-source --no-interaction
 
 before_install:
-  - mysql -e 'CREATE DATABASE edu_app;USE edu_app;'
+  - mysql -e 'CREATE DATABASE edu_app;'
+  - mysql -e 'USE edu_app;'
   - mysql -u root --password="" < tests/travis.sql
 
 script:
