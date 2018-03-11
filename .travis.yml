@@ -10,7 +10,6 @@ before_script:
   - cp .env.travis .env
   - composer self-update
   - composer install --prefer-source --no-interaction
-  - bash .travis.install-mysql-5.7.sh
 
 before_install:
   - mysql -e 'create database IF NOT EXISTS edu_app;'
