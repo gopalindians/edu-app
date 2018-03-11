@@ -10,9 +10,9 @@ before_script:
   - composer install --prefer-source --no-interaction
 
 before_install:
-  - mysql -e 'CREATE DATABASE edu_app;'
+  - mysql -e 'create database IF NOT EXISTS edu_app;'
   - mysql -e 'USE edu_app;'
-  - mysql -u root --password="" < tests/travis.sql
+  - mysql -u root --password="" edu_app < tests/travis.sql
 
 script:
   - vendor/bin/codecept run
