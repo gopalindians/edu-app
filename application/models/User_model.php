@@ -38,7 +38,19 @@ class User_model extends CI_Model {
 
 	public function get_data_by_email( $email ) {
 		$query = $this->db->get_where( 'users', [ 'email' => $email ] );
+
 		return $query->result();
+	}
+
+	public function check_if_email_and_pass_matches( $user_email, $user_pass ) {
+		$result = $this->db->get_where( 'users', [
+			'email' => $user_email,
+		] );
+		if ( password_verify( $user_pass, $result->result()[0]->pass ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 

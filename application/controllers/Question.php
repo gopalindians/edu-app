@@ -21,8 +21,9 @@ class Question extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper( [ 'form', 'url' ] );
-		$this->load->library( [ 'form_validation', 'session' ] );
+		$this->load->library( [ 'form_validation', 'session','minify' ] );
 		$this->load->model( 'question_model' );
+		$this->load->model( 'comment_model' );
 		$this->load->model( 'user_model' );
 	}
 
@@ -32,7 +33,14 @@ class Question extends CI_Controller {
 		$this->load->view( 'layout/header' );
 
 		$question = $this->question_model->get_question_by_id( $id );
-		$this->load->view( 'question/view', [ 'question' => $question ] );
+
+		$limit    = 5;
+		$offset   = 0;
+		$comments = $this->comment_model->get_comments_by_question_id( $this->question_id, $limit, $offset );
+		$this->load->view( 'question/view', [
+			'question' => $question,
+			'comments' => $comments
+		] );
 		$this->load->view( 'layout/footer' );
 	}
 
@@ -43,7 +51,13 @@ class Question extends CI_Controller {
 			$this->load->view( 'question/add' );
 			$this->load->view( 'layout/footer' );
 		} else {
-			redirect( '/auth/login' );
+			if ( isset( $_SERVER['HTTP_REFERER'] ) && $_SERVER['HTTP_REFERER'] !== base_url() ) {
+				$referral_url = str_replace( base_url(), '', $_SERVER['HTTP_REFERER'] );
+				redirect( '/auth/login?referrer=' . $referral_url );
+			} else {
+				redirect( '/auth/login' );
+			}
+
 		}
 	}
 
@@ -95,7 +109,7 @@ class Question extends CI_Controller {
 		$this->load->view( 'layout/footer' );
 	}
 
-	public function post_edit($id, $slug = 'NULL') {
+	public function post_edit( $id, $slug = 'NULL' ) {
 
 		$this->load->view( 'layout/header' );
 		$question = $this->question_model->get_question_by_id( $id );

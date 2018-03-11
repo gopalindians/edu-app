@@ -32,3 +32,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /my-app
 /public
 /phpstorm.php
+/.env

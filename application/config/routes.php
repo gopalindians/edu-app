@@ -59,12 +59,22 @@ $route['auth/register']['post'] = 'auth/register/post';
 
 $route['auth/logout']['get'] = 'auth/logout';
 
-$route['question/(:num)/(:any)']['get']       = 'question/view/$1/$2';
+$route['question/(:num)/(:any)']['get']  = 'question/view/$1/$2';
+$route['question/(:num)/(:any)']['post'] = 'comment/post_comment/$1/$2';
+
+$route['question/load_more_comments']['post'] = 'comment/get_more_comments';
+
 $route['question/edit/(:num)/(:any)']['get']  = 'question/edit/$1/$2';
 $route['question/edit/(:num)/(:any)']['post'] = 'question/post_edit/$1/$2';
 
 $route['question/add']['get']  = 'question/add';
 $route['question/add']['post'] = 'question/post';
+
+$route['profile/(:num)/(:any)']['get'] = 'profile/view/$1/$2';
+
+
+//Facebook
+$route['facebook/handle_callback']['get'] = 'facebook/handle_callback';
 
 /*ADMIN*/
 $route['admin/auth/login']['get']  = 'admin/auth/login';
@@ -75,7 +85,8 @@ $route['admin/auth/register']['post'] = 'admin/auth/register/post';
 
 $route['admin/auth/logout']['get'] = 'admin/auth/logout';
 
-$route['admin']['get']   = 'admin/home/index';
+$route['admin']['get']           = 'admin/home/index';
+$route['admin/questions']['get'] = 'admin/questions/index';
 
 $route['report']['get']  = 'report/index';
 $route['report']['post'] = 'report/index';

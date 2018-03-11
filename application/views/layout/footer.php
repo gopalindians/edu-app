@@ -1,3 +1,17 @@
+<footer style="margin-top: 10px;margin-bottom: 10px;">
+    <div class="card-deck">
+        <div class="card">
+
+            <!--<div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>-->
+            <!--<div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>-->
+        </div
+    </div>
+</footer>
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -9,7 +23,12 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-
+<?php
+if ( isset( $this->minify ) ) {
+	$this->minify->add_js( 'question.comments.load_more.js,helpers.js' );
+	echo $this->minify->deploy_js( true, 'auto' );
+}
+?>
 <script>
     $(document).ready(function () {
         var csrfName = '<?= $this->security->get_csrf_token_name(); ?>',
@@ -23,7 +42,7 @@
                     $.ajax({
                         url: '/report',
                         type: "POST",
-                        ifModified:true,
+                        ifModified: true,
                         data: {
                             csrfName: csrfHash,
                             type: $('input[name=report]').val(),
@@ -38,8 +57,6 @@
                     })
                 });
             }
-
-
         });
     });
 </script>

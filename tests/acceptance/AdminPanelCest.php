@@ -11,7 +11,7 @@ class AdminPanelCest {
 	// tests
 	public function seeHomePage( AcceptanceTester $I ) {
 		$I->amOnPage( '/admin' );
-		$I->see( 'admin home' );
+		$I->see( 'You are inside admin mode! Take care' );
 	}
 
 
@@ -30,7 +30,7 @@ class AdminPanelCest {
 	}
 
 
-	public function seeErrorAfterSubmittingRegisterPage( AcceptanceTester $I ) {
+	public function dontSeeErrorAfterSubmittingRegisterPage( AcceptanceTester $I ) {
 		$this->seeRegisterPage( $I );
 
 		$I->submitForm( 'form', [
@@ -39,7 +39,7 @@ class AdminPanelCest {
 			'confirm_pass' => '12345678'
 		] );
 
-		$I->see( 'error' );
+		$I->seeResponseCodeIs(200);
 	}
 
 

@@ -1,10 +1,8 @@
 <div class="row justify-content-md-center">
-	<?php if ( $this->session->flashdata( 'response' ) != null ): ?>
-        <div class="alert alert-success" role="alert">
-			<?php
-			$response = $this->session->flashdata( 'response' );
-			echo 'Hello, ' . $response['user'] . ', ' . $response['message'];
-			?>
+	<?php if ( $this->session->flashdata( 'response' ) != null ):
+		$response = $this->session->flashdata( 'response' ); ?>
+        <div class="alert alert-<?= $response['type'] ?>" role="alert">
+            <?= 'Hello, ' . $response['user'] . ', ' . $response['message']; ?>
         </div>
 	<?php else: ?>
 		<?= form_open( 'auth/register', [ 'method' => 'post', 'class' => 'col-lg-4 col-lg-8-offset' ] ) ?>
@@ -36,7 +34,8 @@
             <input type="password" class="form-control" id="password-confirm" placeholder="Confirm Password"
                    name="confirm_password" value="<?= set_value( 'confirm_password' ); ?>">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button> <a href="/auth/login" style="float: right" class=" btn btn-primary">Login</a>
+        <button type="submit" class="btn btn-primary">Submit</button> <a href="/auth/login" style="float: right"
+                                                                         class=" btn btn-primary">Login</a>
 		<?= form_close() ?>
 	<?php endif; ?>
 </div>

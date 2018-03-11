@@ -46,24 +46,65 @@ class Question_model extends CI_Model {
 	}
 
 
-	public function get_questions() {
-		$this->db->order_by( 'created_at', 'DESC' );
+	public function get_questions( $limit, $offset ) {
+		$this->db->select( '
+		questions.question_id, questions.question_text,questions.question_description,question_slug,
+			questions.created_at as question_created_at,
+			questions.updated_at as question_updated_at,
+			
+			users.email as user_email,
+			users.id    as user_id,
+		' );
+		$this->db->limit( $limit );
+		$this->db->offset( $offset );
+		$this->db->order_by( 'questions.updated_at', 'DESC' );
+		$this->db->join( 'users', 'users.id = questions.question_posted_by' );
+
 		$query = $this->db->get( 'questions' );
 
+		foreach ( $query->result() as $item ) {
+			[ $item->safe_user_email ] = explode( '@', $item->user_email );
+			$this->db->select( '*' );
+			$this->db->from( 'question_comments' );
+			$this->db->where( 'question_id', $item->question_id );
+			$q                             = $this->db->get();
+			$item->question_total_comments = $q->num_rows();
+		}
+
 		return [
-			'all_questions'   => $query->result(),
-			'total_questions' => $query->num_rows()
+			'all_questions' => $query->result(),
 		];
 	}
 
 	public function get_question_by_id( $question_id ) {
 
-		$this->db->select( '*' );
+		$this->db->select(
+			'questions.question_id, questions.question_text,questions.question_description,question_slug,
+			questions.created_at as question_created_at,
+			questions.updated_at as question_updated_at,
+			
+			users.id as user_id,
+			users.email as user_email,
+			users.profile_image as user_profile_image,
+			users.created_at as user_created_at,
+			users.updated_at as user_updated_at' );
 		$this->db->from( 'questions' );
 		$this->db->where( 'question_id', $question_id );
+		$this->db->join( 'users', 'users.id = questions.question_posted_by' );
 		$query = $this->db->get();
 
+		foreach ( $query->result() as $item ) {
+			[ $item->safe_user_email ] = explode( '@', $item->user_email );
+		}
+
 		return $query->result();
+	}
+
+	public function num_rows() {
+		$this->db->order_by( 'created_at', 'DESC' );
+		$query = $this->db->get( 'questions' );
+
+		return $query->num_rows();
 	}
 
 }

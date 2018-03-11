@@ -57,3 +57,28 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
     <div class="alert alert-danger" role="alert">
         You are inside admin mode! Take care
     </div>
+
+
+    <a class="btn btn-default" href="/admin" role="button">Dashboard</a>
+	<?php if ( $this->uri->segment( 2 ) == 'reports' ): ?>
+        <a class="btn btn-primary" href="/admin/reports" role="button">Reports</a>
+	<?php else: ?>
+        <a class="btn btn-default" href="/admin/reports" role="button">Reports</a>
+	<?php endif; ?>
+
+
+	<?php if ( $this->uri->segment( 2 ) == 'questions' ): ?>
+        <a class="btn btn-primary" href="/admin/questions" role="button">Questions</a>
+	<?php else: ?>
+        <a class="btn btn-default" href="/admin/questions" role="button">Questions</a>
+	<?php endif; ?>
+
+	<?php if ( $this->uri->segment( 2 ) == 'tags' ): ?>
+        <a class="btn btn-primary" href="/admin/tags" role="button">Tags</a>
+	<?php else: ?>
+        <a class="btn btn-default" href="/admin/tags" role="button">Tags</a>
+	<?php endif; ?>
+
+
+    <a class="btn btn-default" href="/admin/users" role="button">Users</a>
+    <br>

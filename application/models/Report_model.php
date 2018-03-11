@@ -45,7 +45,8 @@ class Report_model extends CI_Model {
 	}
 
 	public function get_all_reports() {
-		$query = $this->db->get('flagged_questions');
+		$query = $this->db->get( 'flagged_questions' );
+
 		return $query->result();
 	}
 }

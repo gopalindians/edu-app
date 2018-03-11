@@ -1,29 +1,32 @@
 </br>
-<div class="card text-center">
+<!--<div class="card text-center">-->
     <!--<div class="card-header">
         Featured
     </div>-->
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
+    <!--<div class="card-body">-->
+    <!--    <h5 class="card-title">Special title treatment</h5>-->
+        <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+        <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+<!--    </div>-->
     <!--<div class="card-footer text-muted">
         2 days ago
     </div>-->
-</div>
+<!--</div>-->
 
 <?php if ( $this->session->flashdata( 'response' ) != null ): ?>
     <br>
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
 		<?php
 		$response = $this->session->flashdata( 'response' );
 		echo 'Your question \'' . $response[0] . '\' posted successfully! ';
 		?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 <?php endif; ?>
 <div class="row">
-    <div class="col-lg-8 col-md-12 col-sm-12">
+    <div class="col-lg-12    col-md-12 col-sm-12">
 		<?php foreach ( $questions as $question ): ?>
             <div class="card" style="margin-top: 5px">
                 <div class="card-body">
@@ -48,14 +51,23 @@
                             </div>
                         </div>
                     </h6>
-                    <p class="card-text"><?= $question->question_description ?></p>
-                    <p class="small">Created on
-                        : <?= ( new DateTime( $question->created_at ) )->format( 'd mm' ); ?></p>
+                    <!--<p class="card-text"><?/*= $question->question_description */?></p>-->
+                    <small ><?= date( 'F jS, Y', strtotime( $question->question_created_at ) ); ?></small>
+                    |
+                    <small> Comments</small>
+                    <small class="badge badge-secondary"><?= $question->question_total_comments; ?></small>
+                    |
+                    <small> By
+                        <a href="/profile/<?= $question->user_id ?>/<?= $question->safe_user_email?>" class="card-link">
+							<?= $question->safe_user_email; ?>
+                        </a>
+                    </small>
+
                 </div>
             </div>
 		<?php endforeach; ?>
     </div>
-    <div class="col-lg-2 hidden-md hidden-sm">Hello</div>
+    <!--<div class="col-lg-2 hidden-md hidden-sm">Hello</div>-->
 </div>
 
 <br>
