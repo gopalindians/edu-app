@@ -13,6 +13,8 @@ class Facebook extends CI_Controller {
 		parent::__construct();
 		$this->load->helper( [ 'form', 'url', 'htmlpurifier' ] );
 		$this->load->library( [ 'form_validation', 'session', 'user_agent' ] );
+		$this->load->model( 'user_model' );
+		$this->load->model( 'user_meta_model' );
 	}
 
 
@@ -93,13 +95,11 @@ class Facebook extends CI_Controller {
 		// You can redirect them to a members-only page.
 		//header('Location: https://example.com/members.php');
 
-		//var_dump( $_SESSION['fb_access_token'] );
-
 
 		$response = '';
 		try {
 			// Returns a `Facebook\FacebookResponse` object
-			$response = $fb->get( '/me?fields=id,name,email', (string) $accessToken );
+			$response = $fb->get( '/me?fields=id,name,email', $_SESSION['fb_access_token'] );
 		} catch ( Facebook\Exceptions\FacebookResponseException $e ) {
 			echo 'Graph returned an error: ' . $e->getMessage();
 			exit;
@@ -108,14 +108,30 @@ class Facebook extends CI_Controller {
 			exit;
 		}
 
-		$user = $response->getGraphUser();
+		$user          = $response->getGraphUser();
+		$facebook_data = [
+			'facebook_email'      => $user->getEmail(),
+			'facebook_first_name' => $user->getFirstName(),
+			'facebook_last_name'  => $user->getLastName(),
+		];
 
-		var_dump($user->getEmail());
-
-		//echo 'Name: ' . $user->ge;
-
-		exit(1);// OR
-		//// echo 'Name: ' . $user->getName();
-
+		//check if email already exists
+		if ( $this->user_model->check_if_email_already_exists( $user->getEmail() ) > 0 ) {
+			$this->session->set_userdata( $facebook_data );
+			$this->session->set_userdata( [
+				'UE'       => $user->getEmail(),
+				'U_SAFE_E' => explode( '@', $user->getEmail() )[0]
+			] );
+			redirect( '/' );
+		} else {
+			$user_id = $this->user_model->save_new_user( $user->getEmail(), '' )['user_id'];
+			$this->user_meta_model->save_new_user_meta( $user_id, $user->getFirstName(), $user->getLastName() );
+			$this->session->set_userdata( $facebook_data );
+			$this->session->set_userdata( [
+				'UE'       => $user->getEmail(),
+				'U_SAFE_E' => explode( '@', $user->getEmail() )[0]
+			] );
+			redirect( '/' );
+		}
 	}
 }

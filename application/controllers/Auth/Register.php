@@ -21,8 +21,25 @@ class Register extends CI_Controller {
 
 	public function index(): void {
 		if ( ! $this->checkAuth() ) {
+			$fb = '';
+			try {
+				$fb = new \Facebook\Facebook( [
+					'app_id'                => getenv( 'FB_APP_ID' ), // Replace {app-id} with your app id
+					'app_secret'            => getenv( 'FB_APP_SECRET' ),
+					'default_graph_version' => 'v2.2',
+				] );
+			} catch ( \Facebook\Exceptions\FacebookSDKException $e ) {
+			}
+
+			$helper = $fb->getRedirectLoginHelper();
+
+			$permissions = [ 'email' ]; // Optional permissions
+			$callbackUrl = 'http://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
+			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
-			$this->load->view( 'auth/register' );
+			$this->load->view( 'auth/register', [
+				'loginUrl' => $loginUrl
+			] );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
 			redirect( '/' );
@@ -47,13 +64,14 @@ class Register extends CI_Controller {
 			$this->load->view( 'auth/register' );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
-
-
 			$user                = $this->user_model->save_new_user( $email, $password );
 			$response['message'] = 'Account created successfully';
 			$response['type']    = 'success';
 			$response['user']    = $user;
-			$this->session->set_userdata( [ 'UE' => $user ] );
+			$this->session->set_userdata( [
+				'UE'       => $user,
+				'U_SAFE_E' => explode( '@', $user['email'] )[0],
+			] );
 			$this->session->set_flashdata( 'response', $response );
 			redirect( '/auth/register' );
 		}

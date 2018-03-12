@@ -1,8 +1,7 @@
 language: php
+
 php:
   - '7.0'
-  - '7.1'
-  - '7.2'
 
 sudo: true
 
@@ -10,13 +9,16 @@ before_script:
   - cp .env.travis .env
   - composer self-update
   - composer install --prefer-source --no-interaction
+# - bash .travis.install-mysql-5.7.sh
 
 before_install:
-  - mysql -e 'create database IF NOT EXISTS edu_app;'
-  - mysql -u root --password="" edu_app < tests/travis.sql
+  - sudo mysql_upgrade
+  - sudo service mysql restart
+ #- mysql -e 'create database IF NOT EXISTS edu_app;'
+ #- mysql -u root --password="" edu_app < tests/travis.sql
 
 script:
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run unit
 
 services:
   - mysql

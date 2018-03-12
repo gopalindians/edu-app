@@ -8,7 +8,7 @@
  */
 ?>
     </br>
-<?= form_open( 'question/add', [ 'method' => 'post', 'class' => 'col-lg-8 col-lg-8-offset' ] ) ?>
+<?= form_open( 'question/add', [ 'method' => 'post', 'class' => 'col-lg-12 col-lg-12' ] ) ?>
 <?php if ( validation_errors() !== '' ): ?>
     <div class="alert alert-danger" role="alert">
 		<?= validation_errors(); ?>
