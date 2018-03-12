@@ -16,7 +16,7 @@ before_install:
   - mysql -u root --password="" edu_app < tests/travis.sql
 
 script:
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run unit
 
 services:
   - mysql
