@@ -34,7 +34,7 @@
 
     <hr>
 
-    <!--<a href="<?/*= htmlspecialchars($loginUrl)*/?>">Log in with Facebook!</a>-->
+    <a href="<?= htmlspecialchars($loginUrl)?>">Log in with Facebook!</a>
 
 
 	<?= form_close() ?>

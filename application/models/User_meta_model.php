@@ -1,10 +1,15 @@
 <?php
 
-class User_model extends CI_Model {
+class User_meta_model extends CI_Model {
 
-	public $id;
-	public $email;
-	public $pass;
+	public $user_id;
+	public $first_name;
+	public $last_name;
+	public $age;
+	public $location;
+	public $facebook_url;
+	public $twitter_url;
+	public $instagram_url;
 	public $created_at;
 	public $updated_at;
 
@@ -16,17 +21,16 @@ class User_model extends CI_Model {
 		$this->date = new DateTime();
 	}
 
-	public function save_new_user( $email, $pass ) {
-		$this->email      = $email; // please read the below note
-		$this->pass       = password_hash( $pass, PASSWORD_DEFAULT );
+	public function save_new_user_meta( $user_id, $first_name, $last_name ) {
+		$this->user_id    = $user_id;
+		$this->first_name = $first_name;
+		$this->last_name  = $last_name;
 		$this->created_at = $this->date->format( 'c' );
 		$this->updated_at = $this->date->format( 'c' );
 
-		$this->db->insert( 'users', $this );
-		$this->id = $this->db->insert_id();
+		$this->db->insert( 'users_meta_info', $this );
 
-
-		return [ 'email' => $this->email, 'user_id' => $this->id ];
+		return $this;
 	}
 
 

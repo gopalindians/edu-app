@@ -75,7 +75,8 @@ class Login extends CI_Controller {
 			if ( $this->user_model->check_if_email_and_pass_matches( $this->email, $this->password ) ) {
 				$this->session->set_userdata( [
 					'UE'  => $this->email,
-					'UID' => $this->user_model->get_data_by_email( $this->email )[0]->id
+					'UID' => $this->user_model->get_data_by_email( $this->email )[0]->id,
+					'U_SAFE_E' => explode('@',$this->email)[0]
 				] );
 			} else {
 				$response['type']    = 'danger';

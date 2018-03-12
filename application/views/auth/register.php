@@ -2,7 +2,7 @@
 	<?php if ( $this->session->flashdata( 'response' ) != null ):
 		$response = $this->session->flashdata( 'response' ); ?>
         <div class="alert alert-<?= $response['type'] ?>" role="alert">
-            <?= 'Hello, ' . $response['user'] . ', ' . $response['message']; ?>
+			<?= 'Hello, ' . $response['user'] . ', ' . $response['message']; ?>
         </div>
 	<?php else: ?>
 		<?= form_open( 'auth/register', [ 'method' => 'post', 'class' => 'col-lg-4 col-lg-8-offset' ] ) ?>
@@ -36,6 +36,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button> <a href="/auth/login" style="float: right"
                                                                          class=" btn btn-primary">Login</a>
+        <hr>
+        <a href="<?= htmlspecialchars( $loginUrl ) ?>">Signup with Facebook!</a>
 		<?= form_close() ?>
 	<?php endif; ?>
 </div>
