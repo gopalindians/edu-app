@@ -20,8 +20,8 @@ class Question extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->helper( [ 'form', 'url' ] );
-		$this->load->library( [ 'form_validation', 'session','minify' ] );
+		$this->load->helper( [ 'form', 'url', 'app' ] );
+		$this->load->library( [ 'form_validation', 'session', 'minify' ] );
 		$this->load->model( 'question_model' );
 		$this->load->model( 'comment_model' );
 		$this->load->model( 'user_model' );
@@ -29,6 +29,7 @@ class Question extends CI_Controller {
 
 
 	public function view( $id, $slug = 'NULL' ) {
+		set_ref();
 		$this->question_id = $id;
 		$this->load->view( 'layout/header' );
 
@@ -46,23 +47,17 @@ class Question extends CI_Controller {
 
 
 	public function add() {
-		if ( $this->checkAuth() ) {
+		if ( checkAuth( $this ) ) {
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'question/add' );
 			$this->load->view( 'layout/footer' );
 		} else {
-			if ( isset( $_SERVER['HTTP_REFERER'] ) && $_SERVER['HTTP_REFERER'] !== base_url() ) {
-				$referral_url = str_replace( base_url(), '', $_SERVER['HTTP_REFERER'] );
-				redirect( '/auth/login?referrer=' . $referral_url );
-			} else {
-				redirect( '/auth/login' );
-			}
-
+			redirect( base_url( 'auth/login' ) );
 		}
 	}
 
 	public function post() {
-		if ( $this->checkAuth() ) {
+		if ( checkAuth( $this ) ) {
 			$this->question_text        = $this->input->post( 'question_text' );
 			$this->question_slug        = $this->slug( $this->input->post( 'question_text' ) );
 			$this->question_description = $this->input->post( 'question_description' );
@@ -81,15 +76,7 @@ class Question extends CI_Controller {
 				redirect( '/' );
 			}
 		} else {
-			redirect( '/auth/login' );
-		}
-	}
-
-	private function checkAuth() {
-		if ( $this->session->has_userdata( 'UE' ) ) {
-			return true;
-		} else {
-			return false;
+			redirect( base_url( 'auth/login' ) );
 		}
 	}
 
@@ -109,11 +96,38 @@ class Question extends CI_Controller {
 		$this->load->view( 'layout/footer' );
 	}
 
+	/**
+	 * Handle question edit
+	 *
+	 * @param  int   $id   question id
+	 * @param string $slug question slug
+	 */
 	public function post_edit( $id, $slug = 'NULL' ) {
 
-		$this->load->view( 'layout/header' );
-		$question = $this->question_model->get_question_by_id( $id );
-		$this->load->view( 'question/edit', [ 'question' => $question ] );
-		$this->load->view( 'layout/footer' );
+		$this->question_id          = $this->uri->segment( 2 );
+		$this->question_text        = $this->input->post( 'question_text' );
+		$this->question_description = $this->input->post( 'question_description' );
+
+		$this->form_validation->set_rules( 'question_text', 'Question text', 'trim|required|min_length[10]|max_length[255]' );
+		$this->form_validation->set_rules( 'question_description', 'Question description', 'required|max_length[1500]' );
+		if ( $this->form_validation->run() == false ) {
+			$this->load->view( 'layout/header' );
+			$question = $this->question_model->get_question_by_id( $id );
+			$this->load->view( 'question/edit', [ 'question' => $question ] );
+			$this->load->view( 'layout/footer' );
+
+		} else {
+			//if logged in user and question posted by the user matches update the question
+			if ( $this->session->get_userdata()[ getenv( 'SESSION_UID' ) ] == $this->question_model->get_question_by_id( $this->question_id )[0]->user_id ) {
+				$this->question_model->update_question( $this->session->get_userdata()[ getenv( 'SESSION_UID' ) ], $this->question_id, $this->question_text, $this->question_description, $this->slug( $this->question_text ) );
+			} else {
+				redirect( base_url( 'auth/login' ) );
+			}
+
+			$this->load->view( 'layout/header' );
+			$question = $this->question_model->get_question_by_id( $id );
+			$this->load->view( 'question/edit', [ 'question' => $question ] );
+			$this->load->view( 'layout/footer' );
+		}
 	}
 }

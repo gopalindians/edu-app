@@ -11,7 +11,7 @@ class Facebook extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->helper( [ 'form', 'url', 'htmlpurifier' ] );
+		$this->load->helper( [ 'form', 'url', 'htmlpurifier', 'app' ] );
 		$this->load->library( [ 'form_validation', 'session', 'user_agent' ] );
 		$this->load->model( 'user_model' );
 		$this->load->model( 'user_meta_model' );
@@ -56,16 +56,16 @@ class Facebook extends CI_Controller {
 		}
 
 		// Logged in
-		echo '<h3>Access Token</h3>';
-		var_dump( $accessToken->getValue() );
+		/*echo '<h3>Access Token</h3>';
+		var_dump( $accessToken->getValue() );*/
 
 		// The OAuth 2.0 client handler helps us manage access tokens
 		$oAuth2Client = $fb->getOAuth2Client();
 
 		// Get the access token metadata from /debug_token
 		$tokenMetadata = $oAuth2Client->debugToken( $accessToken );
-		echo '<h3>Metadata</h3>';
-		var_dump( $tokenMetadata->getUserId() );
+		/*echo '<h3>Metadata</h3>';
+		var_dump( $tokenMetadata->getUserId() );*/
 
 		// Validation (these will throw FacebookSDKException's when they fail)
 		try {
@@ -85,7 +85,7 @@ class Facebook extends CI_Controller {
 				exit;
 			}
 
-			echo '<h3>Long-lived</h3>';
+			/*echo '<h3>Long-lived</h3>';*/
 			//var_dump( $accessToken->getValue() );
 		}
 
@@ -99,7 +99,7 @@ class Facebook extends CI_Controller {
 		$response = '';
 		try {
 			// Returns a `Facebook\FacebookResponse` object
-			$response = $fb->get( '/me?fields=id,name,email', $_SESSION['fb_access_token'] );
+			$response = $fb->get( '/me?fields=id,first_name,last_name,email,picture', $_SESSION['fb_access_token'] );
 		} catch ( Facebook\Exceptions\FacebookResponseException $e ) {
 			echo 'Graph returned an error: ' . $e->getMessage();
 			exit;
@@ -110,28 +110,36 @@ class Facebook extends CI_Controller {
 
 		$user          = $response->getGraphUser();
 		$facebook_data = [
-			'facebook_email'      => $user->getEmail(),
-			'facebook_first_name' => $user->getFirstName(),
-			'facebook_last_name'  => $user->getLastName(),
+			'facebook_email'           => $user->getEmail(),
+			'facebook_first_name'      => $user->getFirstName(),
+			'facebook_last_name'       => $user->getLastName(),
+			'facebook_profile_picture' => $user->getPicture()->getUrl(),
 		];
 
 		//check if email already exists
 		if ( $this->user_model->check_if_email_already_exists( $user->getEmail() ) > 0 ) {
 			$this->session->set_userdata( $facebook_data );
+			$user_id = $this->user_model->get_data_by_email( $user->getEmail() )[0]->id;
+
+			$this->user_model->update_user_profile_image( $user_id, $user->getPicture()->getUrl() );
+			$this->user_meta_model->update_user_meta_info( $user_id, $user->getFirstName(), $user->getLastName() );
 			$this->session->set_userdata( [
-				'UE'       => $user->getEmail(),
-				'U_SAFE_E' => explode( '@', $user->getEmail() )[0]
+				getenv( 'SESSION_UID' )             => $user_id,
+				getenv( 'SESSION_USER_EMAIL' )      => $user->getEmail(),
+				getenv( 'SESSION_USER_SAFE_EMAIL' ) => explode( '@', $user->getEmail() )[0]
 			] );
-			redirect( '/' );
+			redirect( get_ref() );
 		} else {
-			$user_id = $this->user_model->save_new_user( $user->getEmail(), '' )['user_id'];
+			$user_id = $this->user_model->save_new_user( $user->getEmail(), '', $user->getPicture()->getUrl() )['user_id'];
 			$this->user_meta_model->save_new_user_meta( $user_id, $user->getFirstName(), $user->getLastName() );
 			$this->session->set_userdata( $facebook_data );
+			$user_id = $this->user_model->get_data_by_email( $user->getEmail() )[0]->id;
 			$this->session->set_userdata( [
-				'UE'       => $user->getEmail(),
-				'U_SAFE_E' => explode( '@', $user->getEmail() )[0]
+				getenv( 'SESSION_UID' )             => $user_id,
+				getenv( 'SESSION_USER_EMAIL' )      => $user->getEmail(),
+				getenv( 'SESSION_USER_SAFE_EMAIL' ) => explode( '@', $user->getEmail() )[0]
 			] );
-			redirect( '/' );
+			redirect( get_ref() );
 		}
 	}
 }

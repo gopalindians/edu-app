@@ -17,11 +17,13 @@
 
     <div class="form-group">
         <label for="formGroupExampleInput">Question title</label>
-        <input type="text" class="form-control" required name="question_text" placeholder="">
+        <input type="text" class="form-control" required name="question_text" placeholder=""
+               value="<?= set_value( 'question_text' ) ?>">
     </div>
     <div class="form-group">
         <label for="formGroupExampleInput2">Question description</label>
-        <input type="text" class="form-control" required name="question_description" placeholder="">
+        <input type="text" class="form-control" required name="question_description"
+               placeholder="" value="<?= set_value( 'question_description' ) ?>">
     </div>
 
     <div class="form-group">

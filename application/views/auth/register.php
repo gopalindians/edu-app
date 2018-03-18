@@ -37,7 +37,9 @@
         <button type="submit" class="btn btn-primary">Submit</button> <a href="/auth/login" style="float: right"
                                                                          class=" btn btn-primary">Login</a>
         <hr>
+
         <a href="<?= htmlspecialchars( $loginUrl ) ?>">Signup with Facebook!</a>
+
 		<?= form_close() ?>
 	<?php endif; ?>
 </div>

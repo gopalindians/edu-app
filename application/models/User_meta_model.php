@@ -2,16 +2,18 @@
 
 class User_meta_model extends CI_Model {
 
-	public $user_id;
-	public $first_name;
-	public $last_name;
-	public $age;
-	public $location;
-	public $facebook_url;
-	public $twitter_url;
-	public $instagram_url;
-	public $created_at;
-	public $updated_at;
+	private $user_id;
+	private $first_name;
+	private $last_name;
+	private $age;
+	private $location;
+	private $facebook_url;
+	private $twitter_url;
+	private $instagram_url;
+	private $created_at;
+	private $updated_at;
+	private $about;
+	private $hobbies;
 
 
 	private $date;
@@ -21,7 +23,7 @@ class User_meta_model extends CI_Model {
 		$this->date = new DateTime();
 	}
 
-	public function save_new_user_meta( $user_id, $first_name, $last_name ) {
+	public function save_new_user_meta( $user_id, $first_name = '', $last_name = '' ) {
 		$this->user_id    = $user_id;
 		$this->first_name = $first_name;
 		$this->last_name  = $last_name;
@@ -40,8 +42,8 @@ class User_meta_model extends CI_Model {
 		return $result->num_rows();
 	}
 
-	public function get_data_by_email( $email ) {
-		$query = $this->db->get_where( 'users', [ 'email' => $email ] );
+	public function get_data_by_user_id( $user_id ) {
+		$query = $this->db->get_where( 'users_meta_info', [ 'user_id' => $user_id ] );
 
 		return $query->result();
 	}
@@ -52,8 +54,36 @@ class User_meta_model extends CI_Model {
 		] );
 		if ( password_verify( $user_pass, $result->result()[0]->pass ) ) {
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
+	}
+
+
+	public function update_user_meta_info( $user_id, $first_name = '', $last_name = '', $about = '', $hobbies = '' ) {
+		if ( empty( $this->get_data_by_user_id( $user_id ) ) ) {
+			$this->user_id    = $user_id;
+			$this->first_name = $first_name;
+			$this->last_name  = $last_name;
+			$this->created_at = $this->date->format( 'c' );
+			$this->updated_at = $this->date->format( 'c' );
+
+			$this->db->insert( 'users_meta_info', $this );
+
+			/*$this->db->set( 'first_name', $first_name );
+			$this->db->set( 'last_name', $last_name );
+			$this->db->where( 'user_id', $user_id );
+			$this->db->update( 'users_meta_info' );*/
+		} else {
+			$this->db->set( 'first_name', $first_name );
+			$this->db->set( 'last_name', $last_name );
+			$this->db->set( 'about', $about );
+			$this->db->set( 'hobbies', $hobbies );
+			$this->db->set( 'updated_at', $this->date->format( 'c' ) );
+			$this->db->where( 'user_id', $user_id );
+			$this->db->update( 'users_meta_info' );
+		}
+
+		return true;
 	}
 }

@@ -12,7 +12,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 class Home extends CI_Controller {
 
-	private const PER_PAGE = 5;
+	private const PER_PAGE = 10;
 
 	public function __construct() {
 		parent::__construct();
@@ -24,7 +24,8 @@ class Home extends CI_Controller {
 
 	public function index() {
 		//$config['per_page']          = self::PER_PAGE;
-		$config['base_url'] = base_url() . '/home/index/';
+		//$config['base_url'] = base_url() . '/home/index/';
+		$config['base_url'] = base_url() . 'home/index';
 		//$config['total_rows']        = $this->question_model->record_count();
 
 		$config['user_page_numbers'] = true;
@@ -48,7 +49,7 @@ class Home extends CI_Controller {
 
 		$config['last_tag_open']   = '<li class="page-item"><span class="page-link">';
 		$config['last_tagl_close'] = '</span></li>';
-		$config['per_page']        = 5;
+		$config['per_page']        = self::PER_PAGE;
 		$this->load->view( 'layout/header' );
 
 		if ( $this->uri->segment( 3 ) ) {
@@ -63,7 +64,7 @@ class Home extends CI_Controller {
 
 
 		$config['total_rows'] = $this->question_model->num_rows();
-		$config['num_links']  = $this->question_model->num_rows();
+		$config['num_links']  = $this->question_model->num_rows() / $config['per_page'];
 		$this->pagination->initialize( $config );
 		$pagination = $this->pagination->create_links();
 

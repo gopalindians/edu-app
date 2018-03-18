@@ -71,7 +71,6 @@ class Comment_model extends CI_Model {
 			if ( isset( $response['result'] ) && ( $response['result'] !== '' ) ) {
 				foreach ( $response['result'] as $item ) {
 					[ $item->safe_user_email ] = explode( '@', $item->user_email );
-					$item->question_comment_updated_at = date( 'F jS, Y', strtotime( $item->question_comment_updated_at ) );
 				}
 			}
 		} else {

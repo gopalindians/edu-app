@@ -1,14 +1,6 @@
 <footer style="margin-top: 10px;margin-bottom: 10px;">
     <div class="card-deck">
         <div class="card">
-
-            <!--<div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>-->
-            <!--<div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-            </div>-->
         </div
     </div>
 </footer>
@@ -25,40 +17,9 @@
 
 <?php
 if ( isset( $this->minify ) ) {
-	$this->minify->add_js( 'question.comments.load_more.js,helpers.js' );
+	$this->minify->add_js( [ 'profile.questions.load_more.js', 'question.comments.load_more.js' ] );
 	echo $this->minify->deploy_js( true, 'auto' );
 }
 ?>
-<script>
-    $(document).ready(function () {
-        var csrfName = '<?= $this->security->get_csrf_token_name(); ?>',
-            csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
-        $('a[data-target="#reportModal"]').click(function () {
-            $('#report_question_id').val($('a[data-target="#reportModal"]').data('question-id'));
-        });
-        $('input[name=report]').change(function () {
-            if ($('input[name=report]').val() != '') {
-                $('#report_send_btn').click(function () {
-                    $.ajax({
-                        url: '/report',
-                        type: "POST",
-                        ifModified: true,
-                        data: {
-                            csrfName: csrfHash,
-                            type: $('input[name=report]').val(),
-                            question_id: $('input[type=hidden][name=report]').val()
-                        },
-                        success: function (response) {
-                            console.log(response);
-                            $(function () {
-                                $('#reportModal').modal('toggle');
-                            });
-                        }
-                    })
-                });
-            }
-        });
-    });
-</script>
 </body>
 </html>

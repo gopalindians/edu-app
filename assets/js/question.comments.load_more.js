@@ -21,8 +21,8 @@ $(document).ready(function () {
                 $('meta[name=csrfHash]').attr("content", response.csrf);
                 csrfValue = response.csrf;
                 $('input[name=comment_offset]').val(response.comments.current_offset);
-
                 response.comments.result.forEach(function (data) {
+                    var moment_question_date = moment(data.question_comment_updated_at).fromNow();
                     $('#question_comments').append('' +
                         '<div class="card" style="margin-top: 5px">\n' +
                         '                    <div class="card-body">\n' +
@@ -31,13 +31,14 @@ $(document).ready(function () {
                         '                            <a href="/profile/' + data.user_id + '/' + data.safe_user_email + '"\n' +
                         '                               class="card-link small float-right">' + data.safe_user_email + '</a>\n' +
                         '                            <br>\n' +
-                        '                            <small>' + data.question_comment_updated_at + '</small>\n' +
+                        '                            <small>' + moment_question_date + '</small>\n' +
                         '                        </div>\n' +
                         '                    </div>\n' +
                         '                </div>');
                 });
 
-                if (response.comments.current_offset > response.comments.total_comments) {
+
+                if (response.comments.result.length == 0) {
                     $('#question_comments_load_more').hide();
                 }
             },
