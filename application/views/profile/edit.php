@@ -5,7 +5,7 @@
         </div>
 	<?php endif; ?>
     <div class="card-body">
-		<?= form_open( current_url() . $this->uri->uri_string(), [
+		<?= form_open( current_url(), [
 			'method'  => 'post',
 			'enctype' => 'multipart/form-data'
 		] ) ?>
