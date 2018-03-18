@@ -27,8 +27,10 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card" style="margin-top: 5px">
             <div class="card-body">
-				<?php if ( $question[0]->user_id == $this->session->get_userdata()[ getenv( 'SESSION_UID' ) ] ): ?>
-                    <div class="float-right"><a href="<?= get_full_url(); ?>/edit">Edit</a></div>
+				<?php if ( $this->session->has_userdata( getenv( 'SESSION_UID' ) ) ): ?>
+					<?php if ( $question[0]->user_id == $this->session->get_userdata()[ getenv( 'SESSION_UID' ) ] ): ?>
+                        <div class="float-right"><a href="<?= get_full_url(); ?>/edit">Edit</a></div>
+					<?php endif; ?>
 				<?php endif; ?>
                 <h6 class="card-subtitle mb-2 text-muted"><?= $question[0]->question_text; ?></h6>
                 <p class="card-text"><?= $question[0]->question_description; ?></p>
