@@ -24,15 +24,18 @@ class User_meta_model extends CI_Model {
 	}
 
 	public function save_new_user_meta( $user_id, $first_name = '', $last_name = '' ) {
-		$this->user_id    = $user_id;
-		$this->first_name = $first_name;
-		$this->last_name  = $last_name;
-		$this->created_at = $this->date->format( 'c' );
-		$this->updated_at = $this->date->format( 'c' );
 
-		$this->db->insert( 'users_meta_info', $this );
+		$data = [
+			'user_id'    => $user_id,
+			'first_name' => $first_name,
+			'last_name'  => $last_name,
+			'created_at' => $this->date->format( 'c' ),
+			'updated_at' => $this->date->format( 'c' )
+		];
 
-		return $this;
+		$this->db->insert( 'users_meta_info', $data );
+
+		return $data;
 	}
 
 

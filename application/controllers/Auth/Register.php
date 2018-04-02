@@ -8,14 +8,18 @@
  */
 
 defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
+// Import PHPMailer classes into the global namespace
+// These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 class Register extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->helper( [ 'form', 'url', 'htmlpurifier' ] );
-		$this->load->library( [ 'form_validation', 'session' ] );
+		$this->load->helper( [ 'form', 'url', 'htmlpurifier', 'app' ] );
+		$this->load->library( [ 'form_validation', 'session'] );
 		$this->load->model( 'user_model' );
 		$this->load->model( 'user_meta_model' );
 	}
@@ -93,6 +97,35 @@ class Register extends CI_Controller {
 				getenv( 'SESSION_UID' )             => $user['user_id'],
 				getenv( 'SESSION_USER_SAFE_EMAIL' ) => explode( '@', $user['email'] )[0],
 			] );
+			$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+			try {
+				//Server settings
+				$mail->SMTPDebug = 4;                                 // Enable verbose debug output
+				$mail->isSMTP();                                      // Set mailer to use SMTP
+				$mail->Host = 'tls://smtp.gmail.com:587';  // Specify main and backup SMTP servers
+				$mail->SMTPAuth = true;                               // Enable SMTP authentication
+				$mail->Username = 'gopalindians@gmail.com';                 // SMTP username
+				$mail->Password = '9149669099!@#QWe345';                           // SMTP password
+				$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+				$mail->Port = 587;                                    // TCP port to connect to
+				$mail->SMTPAutoTLS = false;
+
+				//Recipients
+				$mail->setFrom('gopalindians@gmail.com', 'Mailer');
+				$mail->addAddress('gopalindians@gmail.com', 'Joe User');     // Add a recipient
+
+				//Content
+				$mail->isHTML(true);                                  // Set email format to HTML
+				$mail->Subject = 'Here is the subject';
+				$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+				$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+				$mail->send();
+			} catch (Exception $e) {
+				echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+			}
+
+
 			$this->session->set_flashdata( 'response', $response );
 			redirect( get_ref() );
 		}

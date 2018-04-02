@@ -18,17 +18,19 @@ class User_model extends CI_Model {
 	}
 
 	public function save_new_user( $email, $pass, $profile_image = '' ) {
-		$this->email         = $email;
-		$this->pass          = password_hash( $pass, PASSWORD_DEFAULT );
-		$this->profile_image = $profile_image;
-		$this->created_at    = $this->date->format( 'c' );
-		$this->updated_at    = $this->date->format( 'c' );
-
-		$this->db->insert( 'users', $this );
+		$data = [
+			'email'         => $email,
+			'pass'          => password_hash( $pass, PASSWORD_DEFAULT ),
+			'profile_image' => $profile_image,
+			'created_at'    => $this->date->format( 'c' ),
+			'updated_at'    => $this->date->format( 'c' )
+		];
+		//$this->db->set( $data );
+		$this->db->insert( 'users', $data );
 		$this->id = $this->db->insert_id();
 
 
-		return [ 'email' => $this->email, 'user_id' => $this->id ];
+		return [ 'email' => $email, 'user_id' => $this->id ];
 	}
 
 
