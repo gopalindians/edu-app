@@ -1,7 +1,7 @@
 <div class="row justify-content-md-center">
 
     <div class="col-lg-12 col-lg-12-offset"></div>
-	<?= form_open( get_full_url(), [ 'method' => 'post', 'class' => 'col-lg-4 col-lg-8-offset' ] ) ?>
+	<?= form_open( '', [ 'method' => 'post', 'class' => 'col-lg-4 col-lg-8-offset' ] ) ?>
 
 	<?php if ( $this->session->flashdata( 'response' ) != null ):
 		$response = $this->session->flashdata( 'response' ); ?>

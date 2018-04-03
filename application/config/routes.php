@@ -49,39 +49,39 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'home/index';
+$route['default_controller'] = 'Home/Index';
 
-$route['auth/login']['post']    = 'auth/login/post';
-$route['auth/login']['get']     = 'auth/login';
-$route['auth/register']['get']  = 'auth/register';
-$route['auth/register']['post'] = 'auth/register/post';
-$route['auth/logout']['get']    = 'auth/logout';
+$route['auth/login']['post']    = 'Auth/Login/post';
+$route['auth/login']['get']     = 'Auth/Login';
+$route['auth/register']['get']  = 'Auth/Register';
+$route['auth/register']['post'] = 'Auth/Register/post';
+$route['auth/logout']['get']    = 'Auth/Logout';
 
-$route['question/(:num)/(:any)']['get']       = 'question/view/$1/$2';
-$route['question/(:num)/(:any)']['post']      = 'comment/post_comment/$1/$2';
-$route['question/load_more_comments']['post'] = 'comment/get_more_comments';
-$route['question/(:num)/(:any)/edit']['get']  = 'question/edit/$1/$2';
-$route['question/(:num)/(:any)/edit']['post'] = 'question/post_edit/$1/$2';
-$route['question/add']['get']                 = 'question/add';
-$route['question/add']['post']                = 'question/post';
+$route['question/(:num)/(:any)']['get']       = 'Question/view/$1/$2';
+$route['question/(:num)/(:any)']['post']      = 'Comment/post_comment/$1/$2';
+$route['question/load_more_comments']['post'] = 'Comment/get_more_comments';
+$route['question/(:num)/(:any)/edit']['get']  = 'Question/edit/$1/$2';
+$route['question/(:num)/(:any)/edit']['post'] = 'Question/post_edit/$1/$2';
+$route['question/add']['get']                 = 'Question/add';
+$route['question/add']['post']                = 'Question/post';
 
-$route['profile/(:num)/(:any)']['get']        = 'profile/view/$1/$2';
-$route['profile/(:num)/(:any)/edit']['get']   = 'profile/edit/$1/$2';
-$route['profile/(:num)/(:any)/edit']['post']  = 'profile/edit_post/$1/$2';
-$route['profile/load_more_questions']['post'] = 'profile/get_more_questions';
+$route['profile/(:num)/(:any)']['get']        = 'Profile/view/$1/$2';
+$route['profile/(:num)/(:any)/edit']['get']   = 'Profile/edit/$1/$2';
+$route['profile/(:num)/(:any)/edit']['post']  = 'Profile/edit_post/$1/$2';
+$route['profile/load_more_questions']['post'] = 'Profile/get_more_questions';
 
 
 //Facebook
-$route['facebook/handle_callback']['get'] = 'facebook/handle_callback';
+$route['facebook/handle_callback']['get'] = 'Facebook/handle_callback';
 
 /*ADMIN*/
-$route['admin/auth/login']['get']     = 'admin/auth/login';
-$route['admin/auth/login']['post']    = 'admin/auth/login/post';
-$route['admin/auth/register']['get']  = 'admin/auth/register';
-$route['admin/auth/register']['post'] = 'admin/auth/register/post';
-$route['admin/auth/logout']['get']    = 'admin/auth/logout';
-$route['admin']['get']                = 'admin/home/index';
-$route['admin/questions']['get']      = 'admin/questions/index';
+$route['admin/auth/login']['get']     = 'Admin/Auth/Login';
+$route['admin/auth/login']['post']    = 'Admin/Auth/Login/post';
+$route['admin/auth/register']['get']  = 'Admin/Auth/Register';
+$route['admin/auth/register']['post'] = 'Admin/Auth/Register/post';
+$route['admin/auth/logout']['get']    = 'Admin/Auth/Logout';
+$route['admin']['get']                = 'Admin/Home/index';
+$route['admin/questions']['get']      = 'Admin/Questions/index';
 
 $route['report']['get']  = 'report/index';
 $route['report']['post'] = 'report/index';

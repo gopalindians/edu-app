@@ -8,7 +8,7 @@
  */
 ?>
     </br>
-<?= form_open( get_full_url(), [ 'method' => 'post', 'class' => 'col-lg-12' ] ) ?>
+<?= form_open( '', [ 'method' => 'post', 'class' => 'col-lg-12' ] ) ?>
 <?php if ( validation_errors() !== '' ): ?>
     <div class="alert alert-danger" role="alert">
 		<?= validation_errors(); ?>

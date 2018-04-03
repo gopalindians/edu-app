@@ -25,7 +25,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 // enable/disable library (default value: 'TRUE')
 // when enabled === FALSE library return assets without compilation and compression
 // usefull when debugging or in development environment
-$config['enabled'] = true;
+$config['enabled'] = TRUE;
 // output path where the compiled files will be stored (default value: 'assets')
 $config['assets_dir'] = 'assets';
 // optional - path where the compiled css files will be stored (default value: '' - for backward compatibility)
@@ -46,11 +46,11 @@ $config['css_tag'] = '<link href="%s" rel="stylesheet" type="text/css" />';
 $config['js_tag'] = '<script type="text/javascript" src="%s"></script>';
 // use html tags on output and return as a string (default value: 'TRUE')
 // if html_tags === FALSE - array with links to assets is returned
-$config['html_tags'] = true;
+$config['html_tags'] = TRUE;
 // use automatic file names (default value: 'FALSE')
-$config['auto_names'] = false;
+$config['auto_names'] = FALSE;
 // compress files or not (default value: 'TRUE')
-$config['compress'] = true;
+$config['compress'] = TRUE;
 // compression engine setting (default values: 'minify' and 'closurecompiler')
 $config['compression_engine'] = [
 	'css' => 'minify', // minify || cssmin

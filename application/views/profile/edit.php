@@ -5,7 +5,7 @@
         </div>
 	<?php endif; ?>
     <div class="card-body">
-		<?= form_open( current_url(), [
+		<?= form_open( '', [
 			'method'  => 'post',
 			'enctype' => 'multipart/form-data'
 		] ) ?>
@@ -63,7 +63,7 @@
                              onerror="this.onerror=null;this.src='//placehold.it/150';"
                              class="mx-auto img-fluid img-circle d-block" alt="avatar">
 					<?php else: ?>
-                        <img src="<?= base_url() . '/uploads/' . $user_info[0]->profile_image ?>"
+                        <img src="<?= base_url() . 'uploads/' . $user_info[0]->profile_image ?>"
                              style="max-width: 150px;max-height: 150px;"
                              onerror="this.onerror=null;this.src='//placehold.it/150';"
                              class="mx-auto img-fluid img-circle d-block" alt="avatar">
