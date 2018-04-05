@@ -40,7 +40,7 @@ class Register extends CI_Controller {
 			$helper = $fb->getRedirectLoginHelper();
 
 			$permissions = [ 'email' ]; // Optional permissions
-			$callbackUrl = 'http://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
+			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'auth/register', [
