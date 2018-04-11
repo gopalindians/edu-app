@@ -20,7 +20,7 @@ class Question extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->helper( [ 'form', 'url', 'app' ] );
+		$this->load->helper( [ 'form', 'url', 'app', 'text' ] );
 		$this->load->library( [ 'form_validation', 'session', 'minify' ] );
 		$this->load->model( 'question_model' );
 		$this->load->model( 'comment_model' );
@@ -31,18 +31,18 @@ class Question extends CI_Controller {
 	public function view( $id, $slug = 'NULL' ): void {
 		set_ref();
 		$this->question_id = $id;
-		$this->load->view( 'layout/header' );
-
-		$question = $this->question_model->get_question_by_id( $id );
-
+		$question          = $this->question_model->get_question_by_id( $id );
+		$this->load->view( 'layout/header', [
+			'title'       => word_limiter( $question[0]->question_text ?? '', 55 ),
+			'keywords'    => $question[0]->question_text ?? '',
+			'description' => word_limiter( $question[0]->question_text ?? '', 150 )
+		] );
 		$limit    = 5;
 		$offset   = 0;
 		$comments = $this->comment_model->get_comments_by_question_id( $this->question_id, $limit, $offset );
 		$this->load->view( 'question/view', [
-			'question'    => $question,
-			'comments'    => $comments,
-			'keywords'    => $question,
-			'description' => $question,
+			'question' => $question,
+			'comments' => $comments
 		] );
 		$this->load->view( 'layout/footer' );
 	}
@@ -92,8 +92,12 @@ class Question extends CI_Controller {
 
 
 	public function edit( $id, $slug = 'NULL' ): void {
-		$this->load->view( 'layout/header' );
 		$question = $this->question_model->get_question_by_id( $id );
+		$this->load->view( 'layout/header', [
+			'title'       => word_limiter( $question[0]->question_text ?? '', 55 ),
+			'keywords'    => $question[0]->question_text ?? '',
+			'description' => word_limiter( $question[0]->question_text ?? '', 150 )
+		] );
 		$this->load->view( 'question/edit', [ 'question' => $question ] );
 		$this->load->view( 'layout/footer' );
 	}
@@ -125,9 +129,12 @@ class Question extends CI_Controller {
 			} else {
 				redirect( base_url( 'auth/login' ) );
 			}
-
-			$this->load->view( 'layout/header' );
 			$question = $this->question_model->get_question_by_id( $id );
+			$this->load->view( 'layout/header', [
+				'title'       => word_limiter( $question[0]->question_text ?? '', 55 ),
+				'keywords'    => $question[0]->question_text ?? '',
+				'description' => word_limiter( $question[0]->question_text ?? '', 150 )
+			] );
 			$this->load->view( 'question/edit', [ 'question' => $question ] );
 			$this->load->view( 'layout/footer' );
 		}

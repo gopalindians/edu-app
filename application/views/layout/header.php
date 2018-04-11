@@ -1,28 +1,49 @@
-    <?php
+<?php
 defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
 
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer',<?= '\''.getenv('GTM_ID').'\'' ?>);</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer',<?= '\'' . getenv( 'GTM_ID' ) . '\'' ?>);</script>
     <!-- End Google Tag Manager -->
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= getenv( 'APP_NAME' ) ?></title>
+	<?php if ( isset( $title ) ): ?>
+        <title><?= $title . ' - ' ?><?= getenv( 'APP_NAME' ) ?></title>
+	<?php else: ?>
+        <title><?= getenv( 'APP_NAME' ) ?></title>
+	<?php endif; ?>
 
     <meta name='csrfName' content="<?= $this->security->get_csrf_token_name(); ?>">
     <meta name='csrfHash' content="<?= $this->security->get_csrf_hash(); ?>">
 
     <meta name='keywords' content="<?= $keywords ?? ''; ?>">
-    <meta name='description' content="<?= $description ?? ''; ?>">
+
+	<?php
+
+	$e = [
+		'general' => true, //description
+		'og'      => true,
+		'twitter' => true,
+		'robot'   => true
+	];
+	meta_tags( $e, $description ?? '' ); ?>
     <meta name='language' content='EN'>
-    <meta name='robots' content='index,follow'>
+
     <meta name='url' content='<?= getenv( 'APP_URL' ) ?>'>
     <meta name='rating' content='General'>
     <meta name='target' content='all'>
@@ -37,7 +58,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
     <link rel="apple-touch-icon" sizes="144x144" href="/assets/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/assets/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
@@ -54,8 +75,10 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 <body>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?= getenv('GTM_ID') ?>"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=<?= getenv( 'GTM_ID' ) ?>"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div class="container col-lg-8">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
