@@ -22,7 +22,7 @@ class Login extends CI_Controller {
 		$this->load->model( 'user_model' );
 	}
 
-	public function index() {
+	public function index(): void {
 		set_ref();
 		if ( ! checkAuth( $this ) ) {
 			$fb = '';
@@ -38,7 +38,7 @@ class Login extends CI_Controller {
 			$helper = $fb->getRedirectLoginHelper();
 
 			$permissions = [ 'email' ]; // Optional permissions
-			$callbackUrl = 'http://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
+			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'auth/login', [
@@ -55,10 +55,10 @@ class Login extends CI_Controller {
 		}
 	}
 
-	public function post() {
+	public function post(): void {
 		$this->email    = html_purify( $this->input->post( 'email' ) );
 		$this->password = html_purify( $this->input->post( 'password' ) );
-		$this->form_validation->set_rules( 'email', 'Email', 'trim|required|valid_email|min_length[10]|max_length[255]|callback_check_if_email_exists', [
+		$this->form_validation->set_rules( 'email', 'Email', 'trim|required|valid_email|min_length[5]|max_length[255]|callback_check_if_email_exists', [
 			'check_if_email_exists' => '{field} do not exists',
 		] );
 		$this->form_validation->set_rules( 'password', 'Password', 'required' );
@@ -105,7 +105,7 @@ class Login extends CI_Controller {
 		}
 	}
 
-	public function check_if_email_exists( $email ) {
+	public function check_if_email_exists( $email ): ?bool {
 		if ( $this->user_model->check_if_email_already_exists( $email ) > 0 ) {
 			return true;
 		} else {

@@ -1,16 +1,30 @@
 </br>
-<?php if ( $this->session->flashdata( 'response' ) != null ): ?>
-    <br>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-		<?php
-		$response = $this->session->flashdata( 'response' );
-		echo 'Your question \'' . $response[0] . '\' posted successfully! ';
-		?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-<?php endif; ?>
+<?php if ( $this->session->flashdata( 'response' ) != null ):
+	$response = $this->session->flashdata( 'response' );
+	if ( isset( $response[0] ) ) { ?>
+        <br>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+			<?php
+			echo 'Your question \'' . $response[0] . '\' posted successfully! '; ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+	<?php }endif; ?>
+
+<?php if ( $this->session->flashdata( 'response' ) != null ):
+	$response = $this->session->flashdata( 'response' );
+	if ( isset( $response['type'] ) ) { ?>
+        <br>
+        <div class="alert alert-<?= $response['type'] ?> alert-dismissible fade show" role="alert">
+			<?= $response['message'] ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+	<?php }endif; ?>
+
+
 <div class="row">
     <div class="col-lg-12    col-md-12 col-sm-12">
 		<?php foreach ( $questions as $question ): ?>

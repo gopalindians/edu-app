@@ -19,7 +19,7 @@
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
                    placeholder="Enter email"
                    autocomplete="off"
-                   name="email" <?= set_value( 'email' ); ?>>
+                   name="email" value="<?= set_value( 'email' ); ?>" >
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">

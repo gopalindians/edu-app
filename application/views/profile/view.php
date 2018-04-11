@@ -93,7 +93,7 @@
                                 <h6>About</h6>
                                 <p>
 									<?php if ( isset( $user_meta_info[0] ) && $user_meta_info[0]->about != '' ): ?>
-										<?= $user_meta_info[0]->about; ?>
+										<?= $user_meta_info[0]->about??''; ?>
 									<?php else: ?>
                                         <span>No info</span>
 									<?php endif; ?>
@@ -101,19 +101,20 @@
                                 <h6>Hobbies</h6>
                                 <p>
 									<?php if ( isset( $user_meta_info[0] ) && $user_meta_info[0]->hobbies != '' ): ?>
-										<?= $user_meta_info[0]->hobbies; ?>
+										<?= $user_meta_info[0]->hobbies??''; ?>
 									<?php else: ?>
                                         <span>No info</span>
 									<?php endif; ?>
                                 </p>
                                 <h6>Member since</h6>
                                 <p id="member_since">
-									<?= $user_info[0]->created_at ?>
+
+									<?= $user_info[0]->created_at ?? '' ?>
                                     <script>
-                                        var moment_ = moment('<?= $user_info[0]->updated_at;?>').fromNow();
+                                        var moment_ = moment('<?= $user_info[0]->updated_at??'';?>').fromNow();
                                         document.getElementById('member_since').innerHTML = moment_;
 
-                                        var title = moment('<?= $user_info[0]->updated_at;?>').format('MMMM Do YYYY, h:mm:ss a');
+                                        var title = moment('<?= $user_info[0]->updated_at??'';?>').format('MMMM Do YYYY, h:mm:ss a');
                                         document.getElementById('member_since').setAttribute('title', title);
                                     </script>
                                 </p>

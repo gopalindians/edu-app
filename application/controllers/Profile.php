@@ -6,7 +6,6 @@
  * Time: 01:21
  * Link:
  */
-ini_set( 'display_errors', 'ON' );
 
 class Profile extends CI_Controller {
 
@@ -28,7 +27,7 @@ class Profile extends CI_Controller {
 		$this->load->model( 'question_model' );
 	}
 
-	public function view( $profile_id, $safe_email ) {
+	public function view( $profile_id, $safe_email ): void {
 		//$config['per_page']          = self::PER_PAGE;
 		$config['base_url'] = base_url() . '/home/index/';
 		//$config['total_rows']        = $this->question_model->record_count();
@@ -57,14 +56,19 @@ class Profile extends CI_Controller {
 		$config['per_page']        = 5;
 
 		if ( $this->input->get( 'offset' ) ) {
-			$offset = ( $this->input->get( 'offset' ) );
+			$offset = $this->input->get( 'offset' );
 		} else {
 			$offset = 0;
 		}
 		$total_questions = $this->question_model->num_rows( $profile_id );
 		$questions       = $this->question_model->get_questions( $config['per_page'], $offset, $profile_id );
 		$user_info       = $this->user_model->get_data_by_id( $this->uri->segment( 2 ) );
-		$user_meta_info  = $this->user_meta_model->get_data_by_user_id( $user_info[0]->id );
+
+		if ( isset( $user_info[0]->id ) ) {
+			$user_meta_info = $this->user_meta_model->get_data_by_user_id( $user_info[0]->id );
+		} else {
+			$user_meta_info = '';
+		}
 		foreach ( $questions['all_questions'] as $question ) {
 			$question->question_description = ( strlen( $question->question_description ) > 40 ) ? substr( $question->question_description, 0, 41 ) . '...' : $question->question_description;
 		}
@@ -84,7 +88,7 @@ class Profile extends CI_Controller {
 		$this->load->view( 'layout/footer' );
 	}
 
-	public function edit( $profile_id, $safe_email ) {
+	public function edit( $profile_id, $safe_email ): void {
 
 		if ( checkAuth( $this ) ) {
 
@@ -101,7 +105,7 @@ class Profile extends CI_Controller {
 		}
 	}
 
-	public function edit_post( $profile_id, $safe_email ) {
+	public function edit_post( $profile_id, $safe_email ): void {
 		$this->first_name = $this->input->post( 'first_name' );
 		$this->last_name  = $this->input->post( 'last_name' );
 		$this->about      = $this->input->post( 'about' );
@@ -147,9 +151,14 @@ class Profile extends CI_Controller {
 				$user_info      = $this->user_model->get_data_by_id( $this->uri->segment( 2 ) );
 				$user_meta_info = $this->user_meta_model->get_data_by_user_id( $this->uri->segment( 2 ) );
 
+
 				//delete previous image from the uploads folder if the image is not a URL
-				if ( filter_var( $user_data[0]->profile_image, FILTER_VALIDATE_URL ) == false && file_exists( 'uploads/' . $user_data[0]->profile_image ) ):
-					unlink( 'uploads/' . $user_data[0]->profile_image );
+				if ( isset( $user_data[0]->profile_image ) && filter_var( $user_data[0]->profile_image, FILTER_VALIDATE_URL ) == false && file_exists( 'uploads/' . $user_data[0]->profile_image ) ):
+					try {
+						unlink( 'uploads/' . $user_data[0]->profile_image );
+					} catch ( Exception $exception ) {
+
+					}
 				endif;
 
 				$this->load->view( 'profile/edit', [
@@ -174,7 +183,7 @@ class Profile extends CI_Controller {
 		$this->load->view( 'layout/footer' );
 	}
 
-	public function get_more_questions() {
+	public function get_more_questions(): void {
 		/*$question_id, $limit, $offset*/
 		$this->user_id = $this->input->post( 'user_id' );
 		$this->limit   = $this->input->post( 'limit' );

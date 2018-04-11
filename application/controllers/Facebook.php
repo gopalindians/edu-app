@@ -108,7 +108,10 @@ class Facebook extends CI_Controller {
 			exit;
 		}
 
-		$user          = $response->getGraphUser();
+		try {
+			$user = $response->getGraphUser();
+		} catch ( \Facebook\Exceptions\FacebookSDKException $e ) {
+		}
 		$facebook_data = [
 			'facebook_email'           => $user->getEmail(),
 			'facebook_first_name'      => $user->getFirstName(),

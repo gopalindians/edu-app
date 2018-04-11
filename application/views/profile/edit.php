@@ -55,7 +55,7 @@
         <div class="form-group row">
             <label for="email" class="col-sm-2 col-form-label">Profile Pic</label>
             <div class="col-sm-10">
-				<?php if ( isset( $user_info[0] ) & $user_info[0]->profile_image != '' ): ?>
+				<?php if ( isset( $user_info[0] ) && $user_info[0]->profile_image != '' ): ?>
 
 					<?php if ( filter_var( $user_info[0]->profile_image, FILTER_VALIDATE_URL ) !== false ): ?>
                         <img src="<?= $user_info[0]->profile_image ?>"
