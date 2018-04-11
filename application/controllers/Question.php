@@ -28,7 +28,7 @@ class Question extends CI_Controller {
 	}
 
 
-	public function view( $id, $slug = 'NULL' ) {
+	public function view( $id, $slug = 'NULL' ): void {
 		set_ref();
 		$this->question_id = $id;
 		$this->load->view( 'layout/header' );
@@ -39,14 +39,16 @@ class Question extends CI_Controller {
 		$offset   = 0;
 		$comments = $this->comment_model->get_comments_by_question_id( $this->question_id, $limit, $offset );
 		$this->load->view( 'question/view', [
-			'question' => $question,
-			'comments' => $comments
+			'question'    => $question,
+			'comments'    => $comments,
+			'keywords'    => $question,
+			'description' => $question,
 		] );
 		$this->load->view( 'layout/footer' );
 	}
 
 
-	public function add() {
+	public function add(): void {
 		if ( checkAuth( $this ) ) {
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'question/add' );
@@ -56,7 +58,7 @@ class Question extends CI_Controller {
 		}
 	}
 
-	public function post() {
+	public function post(): void {
 		if ( checkAuth( $this ) ) {
 			$this->question_text        = $this->input->post( 'question_text' );
 			$this->question_slug        = $this->slug( $this->input->post( 'question_text' ) );
@@ -80,7 +82,7 @@ class Question extends CI_Controller {
 		}
 	}
 
-	private function slug( $z ) {
+	private function slug( $z ): string {
 		$z = strtolower( $z );
 		$z = preg_replace( '/[^a-z0-9 -]+/', '', $z );
 		$z = str_replace( ' ', '-', $z );
@@ -89,7 +91,7 @@ class Question extends CI_Controller {
 	}
 
 
-	public function edit( $id, $slug = 'NULL' ) {
+	public function edit( $id, $slug = 'NULL' ): void {
 		$this->load->view( 'layout/header' );
 		$question = $this->question_model->get_question_by_id( $id );
 		$this->load->view( 'question/edit', [ 'question' => $question ] );
@@ -102,7 +104,7 @@ class Question extends CI_Controller {
 	 * @param  int   $id   question id
 	 * @param string $slug question slug
 	 */
-	public function post_edit( $id, $slug = 'NULL' ) {
+	public function post_edit( $id, $slug = 'NULL' ): void {
 
 		$this->question_id          = $this->uri->segment( 2 );
 		$this->question_text        = $this->input->post( 'question_text' );

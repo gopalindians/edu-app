@@ -22,7 +22,7 @@ class Home extends CI_Controller {
 		$this->load->model( 'question_model' );
 	}
 
-	public function index() {
+	public function index(): void {
 		//$config['per_page']          = self::PER_PAGE;
 		//$config['base_url'] = base_url() . '/home/index/';
 		$config['base_url'] = base_url() . 'home/index';
