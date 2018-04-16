@@ -17,7 +17,7 @@ class Home extends CI_Controller {
 		$this->load->model( 'report_model' );
 	}
 
-	public function index() {
+	public function index(): void {
 		if ( $this->checkAuth() ) {
 			$this->load->view( 'admin/layout/header' );
 			$this->load->view( 'admin/index', [ 'reports' => $this->report_model->get_all_reports() ] );
@@ -27,11 +27,11 @@ class Home extends CI_Controller {
 		}
 	}
 
-	private function checkAuth() {
+	private function checkAuth(): ?bool {
 		if ( $this->session->has_userdata( 'AE' ) ) {
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 }

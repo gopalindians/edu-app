@@ -10,8 +10,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
  * Link:
  */
 class Login extends CI_Controller {
-
-	private $email;
+	private $user_email;
 	private $password;
 
 
@@ -41,12 +40,9 @@ class Login extends CI_Controller {
 			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
-			$this->load->view( 'auth/login', [
-				'loginUrl' => $loginUrl
-			] );
+			$this->load->view( 'auth/login', [ 'loginUrl' => $loginUrl ] );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
-
 			if ( null !== get_ref() ) {
 				redirect( get_ref() );
 			} else {
@@ -56,13 +52,10 @@ class Login extends CI_Controller {
 	}
 
 	public function post(): void {
-		$this->email    = html_purify( $this->input->post( 'email' ) );
-		$this->password = html_purify( $this->input->post( 'password' ) );
-		$this->form_validation->set_rules( 'email', 'Email', 'trim|required|valid_email|min_length[5]|max_length[255]|callback_check_if_email_exists', [
-			'check_if_email_exists' => '{field} do not exists',
-		] );
+		$this->user_email = html_purify( $this->input->post( 'email' ) );
+		$this->password   = html_purify( $this->input->post( 'password' ) );
+		$this->form_validation->set_rules( 'email', 'Email', 'trim|required|valid_email|min_length[5]|max_length[255]|callback_check_if_email_exists', [ 'check_if_email_exists' => '{field} do not exists', ] );
 		$this->form_validation->set_rules( 'password', 'Password', 'required' );
-
 		if ( $this->form_validation->run() == false ) {
 			try {
 				$fb = new \Facebook\Facebook( [
@@ -83,12 +76,11 @@ class Login extends CI_Controller {
 
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
-
-			if ( $this->user_model->check_if_email_and_pass_matches( $this->email, $this->password ) ) {
+			if ( $this->user_model->check_if_email_and_pass_matches( $this->user_email, $this->password ) ) {
 				$this->session->set_userdata( [
-					getenv( 'SESSION_USER_EMAIL' )      => $this->email,
-					getenv( 'SESSION_UID' )             => $this->user_model->get_data_by_email( $this->email )[0]->id,
-					getenv( 'SESSION_USER_SAFE_EMAIL' ) => explode( '@', $this->email )[0]
+					getenv( 'SESSION_USER_EMAIL' )      => $this->user_email,
+					getenv( 'SESSION_UID' )             => $this->user_model->get_data_by_email( $this->user_email )[0]->id,
+					getenv( 'SESSION_USER_SAFE_EMAIL' ) => explode( '@', $this->user_email )[0]
 				] );
 			} else {
 				$response['type']    = 'danger';
@@ -96,7 +88,6 @@ class Login extends CI_Controller {
 				$this->session->set_flashdata( 'response', $response );
 				redirect( base_url( '/auth/login' ) );
 			}
-
 			if ( get_ref() !== null ) {
 				redirect( get_ref() );
 			} else {
@@ -106,10 +97,6 @@ class Login extends CI_Controller {
 	}
 
 	public function check_if_email_exists( $email ): ?bool {
-		if ( $this->user_model->check_if_email_already_exists( $email ) > 0 ) {
-			return true;
-		} else {
-			return false;
-		}
+		return $this->user_model->check_if_email_already_exists( $email ) > 0;
 	}
 }

@@ -82,9 +82,7 @@ class Register extends CI_Controller {
 			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
-			$this->load->view( 'auth/register', [
-				'loginUrl' => $loginUrl
-			] );
+			$this->load->view( 'auth/register', [ 'loginUrl' => $loginUrl ] );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
 			$user                = $this->user_model->save_new_user( $email, $password );

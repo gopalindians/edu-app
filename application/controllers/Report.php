@@ -3,7 +3,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 /**
  * Project: edu_app
- * Author: gopalindians <$USER_EMAIL>
+ * Author: gopalindians <gopalindians@gmail.com>
  * Date: 26-02-2018
  * Time: 01:23
  * Link:
@@ -20,7 +20,7 @@ class Report extends CI_Controller {
 		$this->load->model( 'report_model' );
 	}
 
-	public function index() {
+	public function index(): void {
 		$this->question_id = $this->input->post( 'question_id' );
 		$this->report_type = $this->input->post( 'type' );
 		$this->user_id     = $this->session->userdata( 'UE' );

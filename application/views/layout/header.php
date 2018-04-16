@@ -22,6 +22,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-site-verification" content="<?= getenv( 'GOOGLE_SITE_VERIFICATION_ID' ) ?>"/>
 	<?php if ( isset( $title ) ): ?>
         <title><?= $title . ' - ' ?><?= getenv( 'APP_NAME' ) ?></title>
 	<?php else: ?>
@@ -70,7 +71,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js" async></script>
 </head>
 <body>
 

@@ -17,7 +17,7 @@ class Logout extends CI_Controller {
 		set_ref();
 	}
 
-	public function index() {
+	public function index(): void {
 		$this->session->unset_userdata( getenv( 'SESSION_UID' ) );
 		$this->session->unset_userdata( getenv( 'SESSION_USER_EMAIL' ) );
 		$this->session->unset_userdata( getenv( 'SESSION_USER_SAFE_EMAIL' ) );

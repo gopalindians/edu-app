@@ -1,11 +1,4 @@
 <?php
-
-error_reporting( - 1 );
-ini_set( 'display_errors', 1 );
-ini_set( 'display_startup_errors', 1 );
-error_reporting( E_ALL );
-
-
 /**
  * Project: edu_app
  * Author: gopalindians <$USER_EMAIL>
@@ -17,7 +10,7 @@ class Comment extends CI_Controller {
 
 	private $question_id;
 	private $comment_body;
-	private $email;
+	private $user_email;
 	private $user_id;
 	private $limit;
 	private $offset;
@@ -32,7 +25,7 @@ class Comment extends CI_Controller {
 	}
 
 
-	public function post_comment( $id, $slug = 'NULL' ) {
+	public function post_comment( $id, $slug = 'NULL' ): void {
 		if ( checkAuth( $this ) ) {
 			$this->comment_body = html_purify( $this->input->post( 'question_comment' ) );
 			$this->question_id  = html_purify( $id );

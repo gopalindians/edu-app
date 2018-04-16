@@ -4,7 +4,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 /**
  * Project: edu_app
- * Author: gopalindians <$USER_EMAIL>
+ * Author: gopalindians <gopalindians@gmail.com>
  * Date: 06-02-2018
  * Time: 23:36
  * Link:
@@ -16,7 +16,7 @@ class Logout extends CI_Controller {
 		$this->load->library( [ 'session' ] );
 	}
 
-	public function index() {
+	public function index(): void {
 		$this->session->unset_userdata( 'AE' );
 		redirect( 'admin/auth/login' );
 	}

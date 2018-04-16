@@ -19,7 +19,7 @@ class Login extends CI_Controller {
 		$this->load->model( 'admin_model' );
 	}
 
-	public function index() {
+	public function index(): void {
 		if ( ! $this->checkAuth() ) {
 			$this->load->view( 'admin/layout/header' );
 			$this->load->view( 'admin/auth/login' );
@@ -29,7 +29,7 @@ class Login extends CI_Controller {
 		}
 	}
 
-	public function post() {
+	public function post(): void {
 		$this->admin_email = $this->input->post( 'admin_email' );
 		$this->pass        = $this->input->post( 'pass' );
 
@@ -50,31 +50,31 @@ class Login extends CI_Controller {
 		}
 	}
 
-	public function check_admin_email( $admin_email ) {
+	public function check_admin_email( $admin_email ): ?bool {
 		if ( $this->admin_model->check_if_email_already_exists( $admin_email ) > 0 ) {
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
-	public function check_if_admin_email_and_admin_pass_matches( $admin_email, $pass ) {
+	public function check_if_admin_email_and_admin_pass_matches( $admin_email, $pass ): ?bool {
 		if ( $this->admin_model->check_if_admin_email_and_admin_pass_matches( $this->admin_email, $this->pass ) ) {
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	private function checkAuth() {
+	private function checkAuth(): bool {
 		if ( $this->session->has_userdata( 'AE' ) ) {
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 }

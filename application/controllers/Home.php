@@ -53,7 +53,7 @@ class Home extends CI_Controller {
 		$this->load->view( 'layout/header' );
 
 		if ( $this->uri->segment( 3 ) ) {
-			$page = ( $this->uri->segment( 3 ) );
+			$page = $this->uri->segment( 3 );
 		} else {
 			$page = 0;
 		}

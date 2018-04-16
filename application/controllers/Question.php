@@ -1,7 +1,7 @@
 <?php
 /**
  * Project: edu_app
- * Author: gopalindians <$USER_EMAIL>
+ * Author: gopalindians <gopalindians@gmail.com>
  * Date: 07-02-2018
  * Time: 00:27
  * Link:
@@ -15,9 +15,12 @@ class Question extends CI_Controller {
 	private $question_slug;
 	private $question_description;
 
-	private $email;
+	private $user_email;
 	private $user_id;
 
+	/**
+	 * Question constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper( [ 'form', 'url', 'app', 'text' ] );
@@ -27,13 +30,18 @@ class Question extends CI_Controller {
 		$this->load->model( 'user_model' );
 	}
 
-
+	/**
+	 * shows question
+	 *
+	 * @param        $id   int question_id
+	 * @param string $slug string question_slug
+	 */
 	public function view( $id, $slug = 'NULL' ): void {
 		set_ref();
 		$this->question_id = $id;
 		$question          = $this->question_model->get_question_by_id( $id );
 		$this->load->view( 'layout/header', [
-			'title'       => word_limiter( $question[0]->question_text ?? '', 55 ),
+			'title'       => character_limiter( $question[0]->question_text ?? '', 55 ),
 			'keywords'    => $question[0]->question_text ?? '',
 			'description' => word_limiter( $question[0]->question_text ?? '', 150 )
 		] );
@@ -47,7 +55,9 @@ class Question extends CI_Controller {
 		$this->load->view( 'layout/footer' );
 	}
 
-
+	/**
+	 * show add new question form
+	 */
 	public function add(): void {
 		if ( checkAuth( $this ) ) {
 			$this->load->view( 'layout/header' );
@@ -58,6 +68,9 @@ class Question extends CI_Controller {
 		}
 	}
 
+	/**
+	 * Handle adding new question
+	 */
 	public function post(): void {
 		if ( checkAuth( $this ) ) {
 			$this->question_text        = $this->input->post( 'question_text' );
@@ -71,8 +84,8 @@ class Question extends CI_Controller {
 				$this->load->view( 'question/add' );
 				$this->load->view( 'layout/footer' );
 			} else {
-				$this->email   = $this->session->userdata()['UE'];
-				$this->user_id = $this->user_model->get_data_by_email( $this->email )[0]->id;
+				$this->user_email   = $this->session->userdata()['UE'];
+				$this->user_id = $this->user_model->get_data_by_email( $this->user_email )[0]->id;
 				$response      = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_slug, $this->question_description );
 				$this->session->set_flashdata( 'response', $response );
 				redirect( '/' );
@@ -82,6 +95,11 @@ class Question extends CI_Controller {
 		}
 	}
 
+	/**
+	 * @param $z
+	 *
+	 * @return string
+	 */
 	private function slug( $z ): string {
 		$z = strtolower( $z );
 		$z = preg_replace( '/[^a-z0-9 -]+/', '', $z );
@@ -90,11 +108,14 @@ class Question extends CI_Controller {
 		return trim( $z, '-' );
 	}
 
-
+	/**
+	 * @param        $id
+	 * @param string $slug
+	 */
 	public function edit( $id, $slug = 'NULL' ): void {
 		$question = $this->question_model->get_question_by_id( $id );
 		$this->load->view( 'layout/header', [
-			'title'       => word_limiter( $question[0]->question_text ?? '', 55 ),
+			'title'       => character_limiter( $question[0]->question_text ?? '', 55 ),
 			'keywords'    => $question[0]->question_text ?? '',
 			'description' => word_limiter( $question[0]->question_text ?? '', 150 )
 		] );
@@ -111,14 +132,14 @@ class Question extends CI_Controller {
 	public function post_edit( $id, $slug = 'NULL' ): void {
 
 		$this->question_id          = $this->uri->segment( 2 );
+		$this->question_slug        = $this->uri->segment( 3 );
 		$this->question_text        = $this->input->post( 'question_text' );
 		$this->question_description = $this->input->post( 'question_description' );
-
+		$question                   = $this->question_model->get_question_by_id( $id );
 		$this->form_validation->set_rules( 'question_text', 'Question text', 'trim|required|min_length[10]|max_length[255]' );
 		$this->form_validation->set_rules( 'question_description', 'Question description', 'required|max_length[1500]' );
 		if ( $this->form_validation->run() == false ) {
 			$this->load->view( 'layout/header' );
-			$question = $this->question_model->get_question_by_id( $id );
 			$this->load->view( 'question/edit', [ 'question' => $question ] );
 			$this->load->view( 'layout/footer' );
 
@@ -129,14 +150,10 @@ class Question extends CI_Controller {
 			} else {
 				redirect( base_url( 'auth/login' ) );
 			}
-			$question = $this->question_model->get_question_by_id( $id );
-			$this->load->view( 'layout/header', [
-				'title'       => word_limiter( $question[0]->question_text ?? '', 55 ),
-				'keywords'    => $question[0]->question_text ?? '',
-				'description' => word_limiter( $question[0]->question_text ?? '', 150 )
-			] );
-			$this->load->view( 'question/edit', [ 'question' => $question ] );
-			$this->load->view( 'layout/footer' );
+			$response['type']    = 'success';
+			$response['message'] = 'Question updated successfully!';
+			$this->session->set_flashdata( 'response', $response );
+			redirect( base_url( 'question/' . $this->question_id . '/' . $this->question_slug ) );
 		}
 	}
 }

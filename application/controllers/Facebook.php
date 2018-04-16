@@ -74,7 +74,10 @@ class Facebook extends CI_Controller {
 		} // Replace {app-id} with your app id
 		// If you know the user ID this access token belongs to, you can validate it here
 		//$tokenMetadata->validateUserId('123');
-		$tokenMetadata->validateExpiration();
+		try {
+			$tokenMetadata->validateExpiration();
+		} catch ( \Facebook\Exceptions\FacebookSDKException $e ) {
+		}
 
 		if ( ! $accessToken->isLongLived() ) {
 			// Exchanges a short-lived access token for a long-lived one
