@@ -85,7 +85,7 @@ class Register extends CI_Controller {
 			$this->load->view( 'auth/register', [ 'loginUrl' => $loginUrl ] );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
-			$user                = $this->user_model->save_new_user( $email, $password );
+			$user = $this->user_model->save_new_user( $email, $password );
 			$user_meta_info      = $this->user_meta_model->save_new_user_meta( $user['user_id'] );
 			$response['message'] = 'Account created successfully';
 			$response['type']    = 'success';

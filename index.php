@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define( 'ENVIRONMENT', isset( $_SERVER['CI_ENV'] ) ? $_SERVER['CI_ENV'] : 'development' );
+define( 'ENVIRONMENT', $_SERVER['CI_ENV'] ?? 'development' );
 
 /*
  *---------------------------------------------------------------
@@ -65,16 +65,14 @@ define( 'ENVIRONMENT', isset( $_SERVER['CI_ENV'] ) ? $_SERVER['CI_ENV'] : 'devel
  */
 switch ( ENVIRONMENT ) {
 	case 'development':
-		error_reporting( - 1 );
 		ini_set( 'display_errors', 1 );
-		ini_set( 'display_startup_errors', 1 );
 		error_reporting( E_ALL );
 		break;
 
 	case 'testing':
 	case 'production':
 		ini_set( 'display_errors', 0 );
-		if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+		if ( PHP_VERSION_ID >= 50300 ) {
 			error_reporting( E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED );
 		} else {
 			error_reporting( E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE );
@@ -189,7 +187,7 @@ $view_folder = '';
 
 // Set the current directory correctly for CLI requests
 if ( defined( 'STDIN' ) ) {
-	chdir( dirname( __FILE__ ) );
+	chdir( __DIR__ );
 }
 
 if ( ( $_temp = realpath( $system_path ) ) !== false ) {
@@ -222,7 +220,8 @@ define( 'SELF', pathinfo( __FILE__, PATHINFO_BASENAME ) );
 define( 'BASEPATH', $system_path );
 
 // Path to the front controller (this file) directory
-define( 'FCPATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
+define( 'FCPATH', __DIR__ . DIRECTORY_SEPARATOR );
+define( 'ENVPATH', dirname( __DIR__ ) . DIRECTORY_SEPARATOR );
 
 // Name of the "system" directory
 define( 'SYSDIR', basename( BASEPATH ) );

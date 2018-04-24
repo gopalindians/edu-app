@@ -4,7 +4,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
 /**
  * Project: edu_app
- * Author: gopalindians <$USER_EMAIL>
+ * Author: gopalindians <gopalindians@gmail.com>
  * Date: 07-01-2018
  * Time: 19:17
  * Link:
@@ -14,6 +14,9 @@ class Login extends CI_Controller {
 	private $password;
 
 
+	/**
+	 * Login constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper( [ 'form', 'url', 'htmlpurifier', 'app' ] );
@@ -53,7 +56,7 @@ class Login extends CI_Controller {
 
 	public function post(): void {
 		$this->user_email = html_purify( $this->input->post( 'email' ) );
-		$this->password   = html_purify( $this->input->post( 'password' ) );
+		$this->password   = $this->input->post( 'password' );
 		$this->form_validation->set_rules( 'email', 'Email', 'trim|required|valid_email|min_length[5]|max_length[255]|callback_check_if_email_exists', [ 'check_if_email_exists' => '{field} do not exists', ] );
 		$this->form_validation->set_rules( 'password', 'Password', 'required' );
 		if ( $this->form_validation->run() == false ) {
@@ -96,6 +99,12 @@ class Login extends CI_Controller {
 		}
 	}
 
+	/**
+	 * @param $email
+	 *
+	 * @return bool|null
+	 *
+	 */
 	public function check_if_email_exists( $email ): ?bool {
 		return $this->user_model->check_if_email_already_exists( $email ) > 0;
 	}

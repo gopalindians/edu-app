@@ -51,11 +51,13 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 */
 $route['default_controller'] = 'Home/Index';
 
-$route['auth/login']['post']    = 'Auth/Login/post';
-$route['auth/login']['get']     = 'Auth/Login';
-$route['auth/register']['get']  = 'Auth/Register';
-$route['auth/register']['post'] = 'Auth/Register/post';
-$route['auth/logout']['get']    = 'Auth/Logout';
+$route['auth/login']['post']           = 'Auth/Login/post';
+$route['auth/login']['get']            = 'Auth/Login';
+$route['auth/register']['get']         = 'Auth/Register';
+$route['auth/register']['post']        = 'Auth/Register/post';
+$route['auth/logout']['get']           = 'Auth/Logout';
+$route['auth/forgot-password']['get']  = 'Auth/Forgot/show_forgot_page';
+$route['auth/forgot-password']['post'] = 'Auth/Forgot/post_forgot_page';
 
 $route['question/(:num)/(:any)']['get']       = 'Question/view/$1/$2';
 $route['question/(:num)/(:any)']['post']      = 'Comment/post_comment/$1/$2';
@@ -82,16 +84,17 @@ $route['admin/auth/register']['post'] = 'Admin/Auth/Register/post';
 $route['admin/auth/logout']['get']    = 'Admin/Auth/Logout';
 $route['admin']['get']                = 'Admin/Home/index';
 $route['admin/questions']['get']      = 'Admin/Questions/index';
+$route['admin/users']['get']          = 'Admin/Users/index';
 
-$route['report']['get']  = 'report/index';
-$route['report']['post'] = 'report/index';
+$route['report']['get']  = 'Report/index';
+$route['report']['post'] = 'Report/index';
 
 /*ADMIN ENDS*/
 
 
 /*API*/
-$route['api/v1/auth/login']['post']    = 'api/auth/login/index';
-$route['api/v1/auth/register']['post'] = 'api/auth/register/index';
-$route['api/v1/auth/register']['get']  = 'api/auth/register/index';
+$route['api/v1/auth/login']['post']    = 'Api/Auth/Login/index';
+$route['api/v1/auth/register']['post'] = 'Api/Auth/Register/index';
+$route['api/v1/auth/register']['get']  = 'Api/Auth/Register/index';
 $route['404_override']                 = '';
 $route['translate_uri_dashes']         = false;

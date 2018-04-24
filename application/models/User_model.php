@@ -17,7 +17,7 @@ class User_model extends CI_Model {
 		$this->date = new DateTime();
 	}
 
-	public function save_new_user( $email, $pass, $profile_image = '' ) {
+	public function save_new_user( $email, $pass, $profile_image = '' ): array {
 		$data = [
 			'email'         => $email,
 			'pass'          => password_hash( $pass, PASSWORD_DEFAULT ),
@@ -34,33 +34,32 @@ class User_model extends CI_Model {
 	}
 
 
-	public function check_if_email_already_exists( $email ) {
+	public function check_if_email_already_exists( $email ): int {
 		$result = $this->db->get_where( 'users', [ 'email' => $email ] );
 
 		return $result->num_rows();
 	}
 
-	public function get_data_by_email( $email ) {
+	public function get_data_by_email( $email ): array {
 		$query = $this->db->get_where( 'users', [ 'email' => $email ] );
 
 		return $query->result();
 	}
 
-	public function get_data_by_id( $user_id ) {
+	public function get_data_by_id( $user_id ): array {
 		$query = $this->db->get_where( 'users', [ 'id' => $user_id ] );
 
 		return $query->result();
 	}
 
-	public function check_if_email_and_pass_matches( $user_email, $user_pass ) {
+	public function check_if_email_and_pass_matches( $user_email, $user_pass ): ?bool {
 		$result = $this->db->get_where( 'users', [
 			'email' => $user_email,
 		] );
 		if ( password_verify( $user_pass, $result->result()[0]->pass ) ) {
-			return true;
-		} else {
-			return false;
+			return TRUE;
 		}
+		return false;
 	}
 
 	/**
@@ -69,7 +68,7 @@ class User_model extends CI_Model {
 	 *
 	 * @return bool
 	 */
-	public function update_user_profile_image( $user_id, $user_profile_image = '' ) {
+	public function update_user_profile_image( $user_id, $user_profile_image = '' ): bool {
 		$this->db->set( 'profile_image', $user_profile_image );
 		$this->db->set( 'updated_at', $this->date->format( 'c' ) );
 		$this->db->where( 'id', $user_id );

@@ -13,6 +13,6 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 */
 
 $hook['pre_controller'] = function () {
-	$dotenv = new Dotenv\Dotenv( FCPATH );
+	$dotenv = new Dotenv\Dotenv( ENVPATH );
 	$dotenv->load();
 };

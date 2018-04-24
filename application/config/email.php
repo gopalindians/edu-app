@@ -3,5 +3,5 @@
 
 $config['protocol'] = 'sendmail';
 $config['mailpath'] = 'C:\Users\gopalindians\Downloads\sendmail';
-$config['charset']  = 'iso-8859-1';
-$config['wordwrap'] = true;
+$config['charset']  = 'utf=8';
+$config['wordwrap'] = TRUE;

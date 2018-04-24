@@ -1,3 +1,13 @@
+<?php
+/**
+ * Project: edu_app
+ * Author: gopalindians <gopalindians@gmail.com>
+ * Date: 17-04-2018
+ * Time: 22:23
+ * Link:
+ */
+?>
+
 <div class="row justify-content-md-center">
 
     <div class="col-lg-12 col-lg-12-offset"></div>
@@ -22,15 +32,6 @@
                name="email" autocomplete="off" required
                value="<?= set_value( 'email' ); ?>"
                placeholder="Enter email">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password"
-               name="password" autocomplete="off" required
-               value="<?= set_value( 'password' ); ?>">
-    </div>
-    <div style="text-align: right;margin-bottom: 10px;">
-        <a href="/auth/forgot-password">Forgot password</a>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <a href="/auth/register" style="float: right" class=" btn btn-primary">Register</a>
