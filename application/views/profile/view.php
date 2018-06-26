@@ -45,10 +45,12 @@
                             </h6>
                             <small id="question_<?= $question->question_id; ?>">
                                 <script>
-                                    var moment_<?= $question->question_id; ?> = moment('<?= $question->question_updated_at;?>').fromNow();
-                                    document.getElementById('question_<?= $question->question_id;?>').innerHTML = moment_<?= $question->question_id; ?>;
-                                    var title_<?= $question->question_id; ?> = moment('<?= $question->question_updated_at;?>').format('MMMM Do YYYY, h:mm:ss a');
-                                    document.getElementById('question_<?= $question->question_id;?>').setAttribute('title', title_<?= $question->question_id; ?>)
+                                    document.addEventListener("DOMContentLoaded", function (event) {
+                                        var moment_<?= $question->question_id; ?> = moment('<?= $question->question_updated_at;?>').fromNow();
+                                        document.getElementById('question_<?= $question->question_id;?>').innerHTML = moment_<?= $question->question_id; ?>;
+                                        var title_<?= $question->question_id; ?> = moment('<?= $question->question_updated_at;?>').format('MMMM Do YYYY, h:mm:ss a');
+                                        document.getElementById('question_<?= $question->question_id;?>').setAttribute('title', title_<?= $question->question_id; ?>)
+                                    });
                                 </script>
                             </small>
                             |
@@ -93,7 +95,7 @@
                                 <h6>About</h6>
                                 <p>
 									<?php if ( isset( $user_meta_info[0] ) && $user_meta_info[0]->about != '' ): ?>
-										<?= $user_meta_info[0]->about??''; ?>
+										<?= $user_meta_info[0]->about ?? ''; ?>
 									<?php else: ?>
                                         <span>No info</span>
 									<?php endif; ?>
@@ -101,7 +103,7 @@
                                 <h6>Hobbies</h6>
                                 <p>
 									<?php if ( isset( $user_meta_info[0] ) && $user_meta_info[0]->hobbies != '' ): ?>
-										<?= $user_meta_info[0]->hobbies??''; ?>
+										<?= $user_meta_info[0]->hobbies ?? ''; ?>
 									<?php else: ?>
                                         <span>No info</span>
 									<?php endif; ?>
@@ -111,11 +113,13 @@
 
 									<?= $user_info[0]->created_at ?? '' ?>
                                     <script>
-                                        var moment_ = moment('<?= $user_info[0]->updated_at??'';?>').fromNow();
-                                        document.getElementById('member_since').innerHTML = moment_;
+                                        document.addEventListener("DOMContentLoaded", function (event) {
+                                            var moment_ = moment('<?= $user_info[0]->updated_at ?? '';?>').fromNow();
+                                            document.getElementById('member_since').innerHTML = moment_;
 
-                                        var title = moment('<?= $user_info[0]->updated_at??'';?>').format('MMMM Do YYYY, h:mm:ss a');
-                                        document.getElementById('member_since').setAttribute('title', title);
+                                            var title = moment('<?= $user_info[0]->updated_at ?? '';?>').format('MMMM Do YYYY, h:mm:ss a');
+                                            document.getElementById('member_since').setAttribute('title', title);
+                                        });
                                     </script>
                                 </p>
                             </div>

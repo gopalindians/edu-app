@@ -36,11 +36,13 @@
                     </h6>
                     <small id="<?= $question->question_id; ?>_updated_at">
                         <script>
-                            var moment_<?=$question->question_id; ?> = moment('<?= $question->question_updated_at;?>').fromNow();
-                            document.getElementById('<?= $question->question_id;?>_updated_at').innerHTML = moment_<?=$question->question_id; ?>;
+                            document.addEventListener("DOMContentLoaded", function(event) {
+                                var moment_<?=$question->question_id; ?> = moment('<?= $question->question_updated_at;?>').fromNow();
+                                document.getElementById('<?= $question->question_id;?>_updated_at').innerHTML = moment_<?=$question->question_id; ?>;
 
-                            var title_<?=$question->question_id; ?> = moment('<?= $question->question_updated_at;?>').format('MMMM Do YYYY, h:mm:ss a');
-                            document.getElementById('<?= $question->question_id;?>_updated_at').setAttribute('title', title_<?=$question->question_id; ?>);
+                                var title_<?=$question->question_id; ?> = moment('<?= $question->question_updated_at;?>').format('MMMM Do YYYY, h:mm:ss a');
+                                document.getElementById('<?= $question->question_id;?>_updated_at').setAttribute('title', title_<?=$question->question_id; ?>);
+                            });
                         </script>
                     </small>
                     |

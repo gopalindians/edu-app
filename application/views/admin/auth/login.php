@@ -15,14 +15,14 @@
         <label for="admin_email">Email address</label>
         <input type="email" class="form-control" id="admin_email" aria-describedby="emailHelp"
                name="admin_email"
-               value="<?php echo set_value( 'admin_email' ); ?>"
+               value="<?= set_value( 'admin_email' ); ?>"
                placeholder="Enter email">
     </div>
     <div class="form-group">
         <label for="pass">Password</label>
         <input type="password" class="form-control" id="pass" placeholder="Password"
                name="pass"
-               value="<?php echo set_value( 'pass' ); ?>">
+               value="<?= set_value( 'pass' ); ?>">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button> <a href="/admin/auth/register" style="float: right" class=" btn btn-primary">Register</a>
 

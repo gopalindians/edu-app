@@ -73,6 +73,9 @@ $route['profile/(:num)/(:any)/edit']['post']  = 'Profile/edit_post/$1/$2';
 $route['profile/load_more_questions']['post'] = 'Profile/get_more_questions';
 
 
+$route['tags/search']['post'] = 'Tag/Search';
+
+
 //Facebook
 $route['facebook/handle_callback']['get'] = 'Facebook/handle_callback';
 

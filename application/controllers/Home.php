@@ -50,7 +50,9 @@ class Home extends CI_Controller {
 		$config['last_tag_open']   = '<li class="page-item"><span class="page-link">';
 		$config['last_tagl_close'] = '</span></li>';
 		$config['per_page']        = self::PER_PAGE;
-		$this->load->view( 'layout/header' );
+		$this->load->view( 'layout/header', [
+			'keywords' => getenv( 'APP_KEYWORDS' )
+		] );
 
 		if ( $this->uri->segment( 3 ) ) {
 			$page = $this->uri->segment( 3 );

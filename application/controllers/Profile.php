@@ -20,7 +20,7 @@ class Profile extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->helper( [ 'form', 'url', 'file', 'app' ] );
+		$this->load->helper( [ 'form', 'url', 'file' ] );
 		$this->load->library( [ 'form_validation', 'session', 'pagination', 'upload', 'minify' ] );
 		$this->load->model( 'user_model' );
 		$this->load->model( 'user_meta_model' );
@@ -76,14 +76,36 @@ class Profile extends CI_Controller {
 		$this->pagination->initialize( $config );
 		$pagination = $this->pagination->create_links();
 
-		$this->load->view( 'layout/header' );
+
+		if ( isset( $user_meta_info[0]->first_name ) && $user_meta_info[0]->first_name !== '' ) {
+			$title = explode( '@', $user_info[0]->email )[0] . ' (' . ( isset( $user_meta_info[0] ) ? ( $user_meta_info[0]->first_name . ' ' . $user_meta_info[0]->last_name ) : '' ) . ')';
+			if ( $this->input->get( 'tab' ) === 'about' ) {
+				$title = explode( '@', $user_info[0]->email )[0] . ' (' . ( isset( $user_meta_info[0] ) ? ( $user_meta_info[0]->first_name . ' ' . $user_meta_info[0]->last_name ) : '' ) . ') / About';
+			}
+			if ( $this->input->get( 'tab' ) === 'questions' ) {
+				$title = explode( '@', $user_info[0]->email )[0] . ' (' . ( isset( $user_meta_info[0] ) ? ( $user_meta_info[0]->first_name . ' ' . $user_meta_info[0]->last_name ) : '' ) . ') / Questions';
+			}
+		} else {
+			$title = explode( '@', $user_info[0]->email )[0];
+			if ( $this->input->get( 'tab' ) === 'about' ) {
+				$title = explode( '@', $user_info[0]->email )[0] . ' / About';
+			}
+			if ( $this->input->get( 'tab' ) === 'questions' ) {
+				$title = explode( '@', $user_info[0]->email )[0] . ' / Questions';
+			}
+
+		}
+
+		$this->load->view( 'layout/header', [
+			'user_info'      => $user_info,
+			'user_meta_info' => $user_meta_info,
+			'title'          => $title
+		] );
 		$this->load->view( 'profile/view', [
 			'total_questions'          => $total_questions,
 			'questions'                => $questions['all_questions'],
 			'questions_current_offset' => $questions['current_offset'],
-			'pagination'               => $pagination,
-			'user_info'                => $user_info,
-			'user_meta_info'           => $user_meta_info,
+			'pagination'               => $pagination
 		] );
 		$this->load->view( 'layout/footer' );
 	}
@@ -94,11 +116,33 @@ class Profile extends CI_Controller {
 
 			$user_info      = $this->user_model->get_data_by_id( $this->uri->segment( 2 ) );
 			$user_meta_info = $this->user_meta_model->get_data_by_user_id( $this->uri->segment( 2 ) );
-			$this->load->view( 'layout/header' );
-			$this->load->view( 'profile/edit', [
+
+
+			if ( isset( $user_meta_info[0]->first_name ) && $user_meta_info[0]->first_name !== '' ) {
+				$title = explode( '@', $user_info[0]->email )[0] . ' (' . ( isset( $user_meta_info[0] ) ? ( $user_meta_info[0]->first_name . ' ' . $user_meta_info[0]->last_name ) : '' ) . ')';
+				if ( $this->input->get( 'tab' ) === 'about' ) {
+					$title = explode( '@', $user_info[0]->email )[0] . ' (' . ( isset( $user_meta_info[0] ) ? ( $user_meta_info[0]->first_name . ' ' . $user_meta_info[0]->last_name ) : '' ) . ') / About';
+				}
+				if ( $this->input->get( 'tab' ) === 'questions' ) {
+					$title = explode( '@', $user_info[0]->email )[0] . ' (' . ( isset( $user_meta_info[0] ) ? ( $user_meta_info[0]->first_name . ' ' . $user_meta_info[0]->last_name ) : '' ) . ') / Questions';
+				}
+			} else {
+				$title = explode( '@', $user_info[0]->email )[0];
+				if ( $this->input->get( 'tab' ) === 'about' ) {
+					$title = explode( '@', $user_info[0]->email )[0] . ' / About';
+				}
+				if ( $this->input->get( 'tab' ) === 'questions' ) {
+					$title = explode( '@', $user_info[0]->email )[0] . ' / Questions';
+				}
+
+			}
+
+			$this->load->view( 'layout/header', [
 				'user_info'      => $user_info,
 				'user_meta_info' => $user_meta_info,
+				'title'          => $title
 			] );
+			$this->load->view( 'profile/edit' );
 			$this->load->view( 'layout/footer' );
 		} else {
 			redirect( base_url( '/auth/login' ) );

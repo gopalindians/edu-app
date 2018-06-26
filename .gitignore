@@ -34,6 +34,11 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /phpstorm.php
 /.env
 
-/assets/*.js
+/assets/*.min.js
+/assets/*.min.css
 .gitignore
 js/profile.questions.load_more.js
+
+deploy.php
+deploy.php.bak
+.idea

@@ -42,14 +42,14 @@ class Question extends CI_Controller {
 		$question          = $this->question_model->get_question_by_id( $id );
 		$this->load->view( 'layout/header', [
 			'title'       => character_limiter( $question[0]->question_text ?? '', 55 ),
-			'keywords'    => $question[0]->question_text ?? '',
-			'description' => word_limiter( $question[0]->question_text ?? '', 150 )
+			'keywords'    => implode( ', ', explode( ' ', $question[0]->question_text ) ) ?? '',
+			'description' => word_limiter( $question[0]->question_description ?? '', 150 ),
+			'question'    => $question
 		] );
 		$limit    = 5;
 		$offset   = 0;
 		$comments = $this->comment_model->get_comments_by_question_id( $this->question_id, $limit, $offset );
 		$this->load->view( 'question/view', [
-			'question' => $question,
 			'comments' => $comments
 		] );
 		$this->load->view( 'layout/footer' );
@@ -84,9 +84,9 @@ class Question extends CI_Controller {
 				$this->load->view( 'question/add' );
 				$this->load->view( 'layout/footer' );
 			} else {
-				$this->user_email   = $this->session->userdata()['UE'];
-				$this->user_id = $this->user_model->get_data_by_email( $this->user_email )[0]->id;
-				$response      = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_slug, $this->question_description );
+				$this->user_email = $this->session->userdata()['UE'];
+				$this->user_id    = $this->user_model->get_data_by_email( $this->user_email )[0]->id;
+				$response         = $this->question_model->save_new_question( $this->user_id, $this->question_text, $this->question_slug, $this->question_description );
 				$this->session->set_flashdata( 'response', $response );
 				redirect( '/' );
 			}

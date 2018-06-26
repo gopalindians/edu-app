@@ -22,6 +22,7 @@ class Register extends CI_Controller {
 		$this->load->library( [ 'form_validation', 'session' ] );
 		$this->load->model( 'user_model' );
 		$this->load->model( 'user_meta_model' );
+		$this->lang->load( 'auth_register', check_lang() );
 	}
 
 	public function index(): void {
@@ -40,7 +41,7 @@ class Register extends CI_Controller {
 			$helper = $fb->getRedirectLoginHelper();
 
 			$permissions = [ 'email' ]; // Optional permissions
-			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
+			$callbackUrl = getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'auth/register', [
@@ -85,7 +86,7 @@ class Register extends CI_Controller {
 			$this->load->view( 'auth/register', [ 'loginUrl' => $loginUrl ] );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
-			$user = $this->user_model->save_new_user( $email, $password );
+			$user                = $this->user_model->save_new_user( $email, $password );
 			$user_meta_info      = $this->user_meta_model->save_new_user_meta( $user['user_id'] );
 			$response['message'] = 'Account created successfully';
 			$response['type']    = 'success';

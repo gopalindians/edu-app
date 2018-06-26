@@ -19,9 +19,13 @@ class Login extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
+
+
 		$this->load->helper( [ 'form', 'url', 'htmlpurifier', 'app' ] );
 		$this->load->library( [ 'form_validation', 'session', 'user_agent' ] );
 		$this->load->model( 'user_model' );
+		//$this->config->item( 'language' );
+		$this->lang->load( 'auth_login', check_lang() );
 	}
 
 	public function index(): void {
@@ -40,16 +44,17 @@ class Login extends CI_Controller {
 			$helper = $fb->getRedirectLoginHelper();
 
 			$permissions = [ 'email' ]; // Optional permissions
-			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
+			$callbackUrl = getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 			$this->load->view( 'layout/header' );
 			$this->load->view( 'auth/login', [ 'loginUrl' => $loginUrl ] );
 			$this->load->view( 'layout/footer_without_cards' );
 		} else {
-			if ( null !== get_ref() ) {
-				redirect( get_ref() );
+
+			if ( '' !== get_ref() ) {
+				header('Location: '.get_ref());
 			} else {
-				redirect( base_url() );
+				header('Location: /');
 			}
 		}
 	}

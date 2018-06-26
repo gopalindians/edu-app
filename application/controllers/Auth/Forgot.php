@@ -38,7 +38,7 @@ class Forgot extends CI_Controller {
 			$helper = $fb->getRedirectLoginHelper();
 
 			$permissions = [ 'email' ]; // Optional permissions
-			$callbackUrl = 'https://' . getenv( 'BASE_URL' ) . '/facebook/handle_callback';
+			$callbackUrl = getenv( 'BASE_URL' ) . '/facebook/handle_callback';
 			$loginUrl    = $helper->getLoginUrl( $callbackUrl, $permissions );
 
 			$this->load->view( 'layout/header' );
@@ -97,8 +97,9 @@ class Forgot extends CI_Controller {
 
 				//Content
 				$mail->isHTML( true );                                  // Set email format to HTML
-				$mail->Subject = 'Test Hello welcome to ' . getenv( 'APP_NAME' );
-				$mail->Body    = $this->render_email( $this->user_email, '' );
+				$mail->Subject = 'Password reset request - ' . getenv( 'APP_NAME' );
+				//$mail->Body    = $this->render_email( $this->user_email, '' );
+				$mail->Body    = 'Please click on the link to reset password:'.getenv('APP_URL').'/';
 				$mail->CharSet = 'utf-8';
 				$mail_flag     = $mail->send();
 			} catch ( Exception $e ) {
@@ -120,7 +121,7 @@ class Forgot extends CI_Controller {
 
 	public function render_email( $email, $message ): string {
 		ob_start();
-		include $this->load->view( 'auth/forgot_password_email_template.php' );
+//		include $this->load->view( 'auth/forgot_password_email_template.php' );
 		return ob_get_contents();
 	}
 }
