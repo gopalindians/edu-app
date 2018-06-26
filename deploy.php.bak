@@ -1,0 +1,68 @@
+<?php
+
+namespace Deployer;
+
+require_once  __DIR__.'/vendor/deployer/deployer/recipe/codeigniter.php';
+
+// Project name
+set( 'application', 'my_project' );
+
+// Project repository
+set( 'repository', 'https://github.com/gopalindians/edu-app.git' );
+
+// [Optional] Allocate tty for git clone. Default value is false.
+set( 'git_tty', true );
+
+// no of releases to keep
+set( 'keep_releases', 5 );
+
+set( 'ssh_multiplexing', false );
+//set('ssh_type', 'native');
+
+set('writable_mode', 'chmod');
+set('ssh_type', 'phpseclib');
+
+// Hosts
+
+
+host( 'www.bhushandi.com' )
+	//->stage('production')
+	//->roles('app')
+	->user( 'qcj25ey5uord' )
+	//->password( '!@#QWe345' )
+	->port( 22 )
+	->set('deploy_path','~/public_html/test_app/')
+	->forwardAgent( true )
+	->addSshOption( 'UserKnownHostsFile', '/dev/null' )
+	->addSshOption( 'StrictHostKeyChecking', 'no' );
+
+task( 'pwd', function () {
+	$result = run( 'pwd' );
+	writeln( "Current dir: $result" );
+} );
+
+
+// CodeIgniter shared dirs
+set('shared_dirs', ['application/cache', 'application/logs']);
+
+// CodeIgniter writable dirs
+set('writable_dirs', ['application/cache', 'application/logs']);
+
+/**
+ * Main task
+ */
+task('deploy', [
+	'deploy:info',
+	'deploy:prepare',
+	'deploy:lock',
+	'deploy:release',
+	'deploy:update_code',
+	'deploy:vendors',
+	'deploy:shared',
+	'deploy:symlink',
+	'deploy:unlock',
+	'cleanup',
+])->desc('Deploy your project');
+
+after('deploy', 'success');
+
