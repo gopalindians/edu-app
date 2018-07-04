@@ -186,7 +186,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <!--<a class="nav-link" href="#fat">@fat</a>-->
-                <a href="/question/add" class=" mr-sm-2 btn btn-primary"><?= $this->lang->line( 'add_a_new_question_btn' ); ?>Add new question</a>
+                <a href="/question/add" class=" mr-sm-2 btn btn-primary"><?= $this->lang->line( 'add_a_new_question_btn' ); ?></a>
 
             </li>
             <!--<li class="nav-item dropdown">

@@ -35,6 +35,7 @@
                         <input type="hidden" id="hidden_question_id" value="<?= $question->question_id; ?>">
                     </h6>
                     <small id="<?= $question->question_id; ?>_updated_at">
+                        <?=  $question->question_updated_at; ?>
                         <script>
                             document.addEventListener("DOMContentLoaded", function(event) {
                                 var moment_<?=$question->question_id; ?> = moment('<?= $question->question_updated_at;?>').fromNow();

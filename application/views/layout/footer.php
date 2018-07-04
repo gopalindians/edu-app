@@ -24,7 +24,7 @@ if ( isset( $this->minify ) ) {
 }
 
 if ( isset( $this->minify ) ) {
-	$this->minify->add_css( [ 'tags.css' ] );
+	$this->minify->add_css( [ 'tags.css','loader.css' ] );
 	echo $this->minify->deploy_css( true, 'auto' );
 }
 ?>
