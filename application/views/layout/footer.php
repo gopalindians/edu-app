@@ -1,4 +1,5 @@
 <footer style="margin-top: 10px;margin-bottom: 10px;">
+    <div class="center"><a href="/feedback">Feedback</a></div>
     <div class="card-deck">
         <div class="card">
         </div
