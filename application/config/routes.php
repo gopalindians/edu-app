@@ -72,8 +72,11 @@ $route['profile/(:num)/(:any)/edit']['get']   = 'Profile/edit/$1/$2';
 $route['profile/(:num)/(:any)/edit']['post']  = 'Profile/edit_post/$1/$2';
 $route['profile/load_more_questions']['post'] = 'Profile/get_more_questions';
 
-
 $route['tags/search']['post'] = 'Tag/Search';
+
+
+$route['feedback']['get']  = 'Feedback/index';
+$route['feedback']['post'] = 'Feedback/post';
 
 
 //Facebook
