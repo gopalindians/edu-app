@@ -115,14 +115,14 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
     <!--<link rel="manifest" href="/assets/manifest.json">-->
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/assets/ms-icon-144x144.png">
-    <meta name="theme-color" content="#db5945">
+    <meta name="theme-color" content="#007bff">
     <link rel="manifest" href="/manifest.json">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js" async></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>-->
 	<?php
 	/*if ( isset( $this->minify ) ) {
 		$this->minify->add_css( [ 'tags.css' ] );
@@ -132,7 +132,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
 
     <!-- production version, optimized for size and speed -->
     <!--<script src="//cdn.jsdelivr.net/npm/vue"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>-->
 
 </head>
 <body>
@@ -186,7 +186,7 @@ defined( 'BASEPATH' ) OR exit( 'No direct script access allowed' );
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <!--<a class="nav-link" href="#fat">@fat</a>-->
-                <a href="/question/add" class=" mr-sm-2 btn btn-primary"><?= $this->lang->line( 'add_a_new_question_btn' ); ?></a>
+                <a href="/question/add" class=" mr-sm-2 btn btn-primary">Add new question</a>
 
             </li>
             <!--<li class="nav-item dropdown">

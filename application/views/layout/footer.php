@@ -20,17 +20,17 @@
 
 <?php
 if ( isset( $this->minify ) ) {
-	$this->minify->add_js( [ 'profile.questions.load_more.js', 'question.comments.load_more.js', 'tags.js' ] );
+	$this->minify->add_js( [ 'profile.questions.load_more.js', 'question.comments.load_more.js' ] );
 	echo $this->minify->deploy_js( true, 'auto' );
 }
 
-if ( isset( $this->minify ) ) {
-	$this->minify->add_css( [ 'tags.css','loader.css' ] );
+/*if ( isset( $this->minify ) ) {
+	$this->minify->add_css( [] );
 	echo $this->minify->deploy_css( true, 'auto' );
-}
+}*/
 ?>
 <script>
-    if ('serviceWorker' in navigator) {
+/*    if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('/sw.js').then(function (registration) {
                 // Registration was successful
@@ -40,7 +40,7 @@ if ( isset( $this->minify ) ) {
                 console.log('ServiceWorker registration failed: ', err);
             });
         });
-    }
+    }*/
 </script>
 </body>
 </html>

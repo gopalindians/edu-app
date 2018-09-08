@@ -24,7 +24,7 @@ class Feedback extends CI_Controller {
 	}
 
 	public function index() {
-		$this->load->view( 'layout/header' );
+		$this->load->view( 'layout/header',['title'=>'Feedback']  );
 		$this->load->view( 'feedback/index' );
 		$this->load->view( 'layout/footer_without_cards' );
 	}
@@ -36,13 +36,13 @@ class Feedback extends CI_Controller {
 		$this->form_validation->set_rules( 'email', 'Email', 'trim|required|valid_email|min_length[5]|max_length[255]' );
 		$this->form_validation->set_rules( 'feedback', 'Feedback', 'trim|required|min[12]|max[1500]' );
 		if ( $this->form_validation->run() == false ) {
-			$this->load->view( 'layout/header' );
+			$this->load->view( 'layout/header',['title'=>'Feedback'] );
 			$this->load->view( 'feedback/index' );
 			$this->load->view( 'layout/footer_without_cards' );
 
 		} else {
 			$this->feedback_model->save_feedback( $this->user_email, $this->feedback, $_SERVER['HTTP_REFERER'] ?? '', $this->get_client_ip(), $_SERVER['HTTP_USER_AGENT'] ?? '' );
-			$this->load->view( 'layout/header' );
+			$this->load->view( 'layout/header',['title'=>'Feedback'] );
 			$this->load->view( 'feedback/index' );
 			$this->load->view( 'layout/footer_without_cards' );
 			$response['type']    = 'success';
